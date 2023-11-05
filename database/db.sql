@@ -1,0 +1,29 @@
+DROP TABLE IF EXISTS insumos;
+
+CREATE TABLE insumos (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(255) NOT NULL,
+    peso varchar(255) NOT NULL,
+    createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS recetas;
+
+CREATE TABLE recetas (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  insumo_id int,
+  nombre varchar(255) NOT NULL,
+  createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT FK_InsumoReceta FOREIGN KEY (insumo_id) REFERENCES insumos(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS productos;
+
+CREATE TABLE productos (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    receta_id int,
+    nucleo DECIMAL(10,3),
+    batch DECIMAL(10,3),
+    createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT FK_RecetaProducto FOREIGN KEY (receta_id) REFERENCES insumos(id) ON DELETE CASCADE
+);
