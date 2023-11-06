@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-import AuthGuard from './auth/AuthGuard';
+// import AuthGuard from './auth/AuthGuard';
 import { authRoles } from './auth/authRoles';
 import Loadable from './components/Loadable';
 import MatxLayout from './components/MatxLayout/MatxLayout';
@@ -27,9 +27,7 @@ const Worker = Loadable(lazy(() => import('app/views/work/Worker')));
 const routes = [
   {
     element: (
-      <AuthGuard>
         <MatxLayout />
-      </AuthGuard>
     ),
     children: [
       ...materialRoutes,

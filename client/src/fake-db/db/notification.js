@@ -1,4 +1,4 @@
-import Mock from '../mock';
+// import Mock from '../mock';
 import shortId from 'shortid';
 
 const NotificationDB = {
@@ -33,27 +33,27 @@ const NotificationDB = {
   ]
 };
 
-Mock.onGet('/api/notification').reply(() => {
-  const response = NotificationDB.list;
-  return [200, response];
-});
+// Mock.onGet('/api/notification').reply(() => {
+//   const response = NotificationDB.list;
+//   return [200, response];
+// });
 
-Mock.onPost('/api/notification/add').reply(() => {
-  const response = NotificationDB.list;
-  return [200, response];
-});
+// Mock.onPost('/api/notification/add').reply(() => {
+//   const response = NotificationDB.list;
+//   return [200, response];
+// });
 
-Mock.onPost('/api/notification/delete').reply((config) => {
-  let { id } = JSON.parse(config.data);
-  console.log(config.data);
+// Mock.onPost('/api/notification/delete').reply((config) => {
+//   let { id } = JSON.parse(config.data);
+//   console.log(config.data);
 
-  const response = NotificationDB.list.filter((notification) => notification.id !== id);
-  NotificationDB.list = [...response];
-  return [200, response];
-});
+//   const response = NotificationDB.list.filter((notification) => notification.id !== id);
+//   NotificationDB.list = [...response];
+//   return [200, response];
+// });
 
-Mock.onPost('/api/notification/delete-all').reply(() => {
-  NotificationDB.list = [];
-  const response = NotificationDB.list;
-  return [200, response];
-});
+// Mock.onPost('/api/notification/delete-all').reply(() => {
+//   NotificationDB.list = [];
+//   const response = NotificationDB.list;
+//   return [200, response];
+// });

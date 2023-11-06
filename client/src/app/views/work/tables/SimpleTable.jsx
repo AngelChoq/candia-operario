@@ -65,9 +65,9 @@ const SimpleTable = () => {
     async function loadInsumos(){
       console.log("Antes de ejecutar getInsumosRequest")
       const response = await getInsumosRequest();
-      const insumos = await response.json();
-      console.log("insumos")
-      console.log(insumos);
+      // const insumos = await response.json();
+      // console.log("insumos")
+      // console.log(insumos);
       console.log("response")
       console.log(response);
     }

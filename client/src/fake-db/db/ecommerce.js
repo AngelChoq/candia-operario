@@ -1,4 +1,4 @@
-import Mock from '../mock';
+// import Mock from '../mock';
 import shortId from 'shortid';
 
 const EcommerceDB = {
@@ -211,108 +211,108 @@ const getDetailedCartList = (uid) => {
   }));
 };
 
-Mock.onGet('/api/ecommerce/get-product-list').reply(() => {
-  const response = EcommerceDB.productList;
-  return [200, response];
-});
+// Mock.onGet('/api/ecommerce/get-product-list').reply(() => {
+//   const response = EcommerceDB.productList;
+//   return [200, response];
+// });
 
-Mock.onGet('/api/ecommerce/get-category-list').reply(() => {
-  const response = EcommerceDB.category;
-  return [200, response];
-});
+// Mock.onGet('/api/ecommerce/get-category-list').reply(() => {
+//   const response = EcommerceDB.category;
+//   return [200, response];
+// });
 
-Mock.onGet('/api/ecommerce/get-rating-list').reply(() => {
-  const response = EcommerceDB.rating;
-  return [200, response];
-});
+// Mock.onGet('/api/ecommerce/get-rating-list').reply(() => {
+//   const response = EcommerceDB.rating;
+//   return [200, response];
+// });
 
-Mock.onGet('/api/ecommerce/get-brand-list').reply(() => {
-  const response = EcommerceDB.brand;
-  return [200, response];
-});
+// Mock.onGet('/api/ecommerce/get-brand-list').reply(() => {
+//   const response = EcommerceDB.brand;
+//   return [200, response];
+// });
 
-Mock.onGet('/api/ecommerce/get-cart-list').reply((config) => {
-  let uid = config.data;
-  let response = [];
+// Mock.onGet('/api/ecommerce/get-cart-list').reply((config) => {
+//   let uid = config.data;
+//   let response = [];
 
-  if (uid) {
-    response = getDetailedCartList(uid);
-  }
+//   if (uid) {
+//     response = getDetailedCartList(uid);
+//   }
 
-  return [200, response];
-});
+//   return [200, response];
+// });
 
-Mock.onPost('/api/ecommerce/add-to-cart').reply((config) => {
-  let { uid, productId } = JSON.parse(config.data);
+// Mock.onPost('/api/ecommerce/add-to-cart').reply((config) => {
+//   let { uid, productId } = JSON.parse(config.data);
 
-  let cartList = EcommerceDB.cart.map((userCart) => {
-    // if (userCart.uid === uid) {
-    let product = userCart.list.find((product) => product.productId === productId);
-    if (product) {
-      return {
-        ...userCart,
-        list: userCart.list.map((product) => {
-          if (product.productId === productId) {
-            return {
-              ...product,
-              amount: product.amount + 1
-            };
-          } else return product;
-        })
-      };
-    } else {
-      userCart.list.push({ productId, amount: 1 });
-      return userCart;
-    }
-  });
+//   let cartList = EcommerceDB.cart.map((userCart) => {
+//     // if (userCart.uid === uid) {
+//     let product = userCart.list.find((product) => product.productId === productId);
+//     if (product) {
+//       return {
+//         ...userCart,
+//         list: userCart.list.map((product) => {
+//           if (product.productId === productId) {
+//             return {
+//               ...product,
+//               amount: product.amount + 1
+//             };
+//           } else return product;
+//         })
+//       };
+//     } else {
+//       userCart.list.push({ productId, amount: 1 });
+//       return userCart;
+//     }
+//   });
 
-  EcommerceDB.cart = cartList;
+//   EcommerceDB.cart = cartList;
 
-  const response = getDetailedCartList(uid);
+//   const response = getDetailedCartList(uid);
 
-  return [200, response];
-});
+//   return [200, response];
+// });
 
-Mock.onPost('/api/ecommerce/delete-from-cart').reply((config) => {
-  let { uid, productId } = JSON.parse(config.data);
+// Mock.onPost('/api/ecommerce/delete-from-cart').reply((config) => {
+//   let { uid, productId } = JSON.parse(config.data);
 
-  let cartList = EcommerceDB.cart.map((userCart) => {
-    // if (userCart.uid === uid) {
-    return {
-      ...userCart,
-      list: userCart.list.filter((product) => product.productId !== productId)
-    };
-    // } else return userCart;
-  });
+//   let cartList = EcommerceDB.cart.map((userCart) => {
+//     // if (userCart.uid === uid) {
+//     return {
+//       ...userCart,
+//       list: userCart.list.filter((product) => product.productId !== productId)
+//     };
+//     // } else return userCart;
+//   });
 
-  EcommerceDB.cart = cartList;
+//   EcommerceDB.cart = cartList;
 
-  const response = getDetailedCartList(uid);
+//   const response = getDetailedCartList(uid);
 
-  return [200, response];
-});
+//   return [200, response];
+// });
 
-Mock.onPost('/api/ecommerce/update-cart-amount').reply((config) => {
-  let { uid, productId, amount } = JSON.parse(config.data);
+// Mock.onPost('/api/ecommerce/update-cart-amount').reply((config) => {
+//   let { uid, productId, amount } = JSON.parse(config.data);
 
-  let cartList = EcommerceDB.cart.map((userCart) => {
-    // if (userCart.uid === uid) {
-    return {
-      ...userCart,
-      list: userCart.list.map((product) => {
-        if (product.productId === productId) {
-          console.log('found');
-          product.amount = amount;
-        }
-        return product;
-      })
-    };
-    // } else return userCart;
-  });
+//   let cartList = EcommerceDB.cart.map((userCart) => {
+//     // if (userCart.uid === uid) {
+//     return {
+//       ...userCart,
+//       list: userCart.list.map((product) => {
+//         if (product.productId === productId) {
+//           console.log('found');
+//           product.amount = amount;
+//         }
+//         return product;
+//       })
+//     };
+//     // } else return userCart;
+//   });
 
-  EcommerceDB.cart = cartList;
+//   EcommerceDB.cart = cartList;
 
-  const response = getDetailedCartList(uid);
+//   const response = getDetailedCartList(uid);
 
-  return [200, response];
-});
+//   return [200, response];
+// });

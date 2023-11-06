@@ -1,7 +1,7 @@
 import { CssBaseline } from '@mui/material';
 import { useRoutes } from 'react-router-dom';
 import { MatxTheme } from './components';
-import { AuthProvider } from './contexts/JWTAuthContext';
+// import { AuthProvider } from './contexts/JWTAuthContext';
 // import { InsumoContextProvider } from "../context/InsumoProvider";
 import { SettingsProvider } from './contexts/SettingsContext';
 import routes from './routes';
@@ -12,14 +12,14 @@ const App = () => {
 
   return (
     <SettingsProvider>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         {/* <InsumoContextProvider> */}
         <MatxTheme>
           <CssBaseline />
           {content}
         </MatxTheme>
         {/* </InsumoContextProvider> */}
-      </AuthProvider>
+      {/* </AuthProvider> */}
     </SettingsProvider>
   );
 };

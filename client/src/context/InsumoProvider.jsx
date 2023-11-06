@@ -18,13 +18,10 @@ export const useInsumos = () => {
 };
 
 export const InsumoContextProvider = ({ children }) => {
-  console.log("Ingresando a InsumoContextProvider");
   const [insumos, setInsumos] = useState([]);
 
   async function loadInsumos() {
     const response = await getInsumosRequest();
-    console.log("Ejecutando loadInsumos");
-    console.log(response.data);
     setInsumos(response.data);
   }
 
