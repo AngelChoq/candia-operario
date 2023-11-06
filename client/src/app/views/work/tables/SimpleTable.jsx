@@ -14,8 +14,8 @@ import {
 } from '@mui/material';
 import SimpleCheckbox from '../../material-kit/checkbox/SimpleCheckbox';
 import FormDialog from '../dialog/FormDialog';
-// import { useInsumos } from "../../../../context/InsumoProvider";
-import { getInsumosRequest } from '../../../../api/insumos.api';
+import { useInsumos } from "../../../../context/InsumoProvider";
+// import { getInsumosRequest } from '../../../../api/insumos.api';
 import { useEffect } from "react";
 
 const StyledTable = styled(Table)(({ theme }) => ({
@@ -57,23 +57,32 @@ const subscribarList = [
 ];
 
 const SimpleTable = () => {
-  // const { insumos, loadInsumos } = useInsumos();
+  const { insumos, loadInsumos } = useInsumos();
+
+  // useEffect(() => {
+  //   console.log('Ejecutando useEffect inicial');
+  //   // loadInsumos();
+  //   async function loadInsumos(){
+  //     console.log("Antes de ejecutar getInsumosRequest")
+  //     const response = await getInsumosRequest();
+  //     // const insumos = await response.json();
+  //     // console.log("insumos")
+  //     // console.log(insumos);
+  //     console.log("response")
+  //     console.log(response);
+  //   }
+  //   loadInsumos();
+  //   // console.log("insumos",insumos);
+  // }, []);
 
   useEffect(() => {
-    console.log('Ejecutando useEffect inicial');
-    // loadInsumos();
-    async function loadInsumos(){
-      console.log("Antes de ejecutar getInsumosRequest")
-      const response = await getInsumosRequest();
-      // const insumos = await response.json();
-      // console.log("insumos")
-      // console.log(insumos);
-      console.log("response")
-      console.log(response);
-    }
     loadInsumos();
-    // console.log("insumos",insumos);
   }, []);
+
+  useEffect(() => {
+    console.log("insumos");
+    console.log(insumos);
+  }, [insumos]);
   
   return (
     <Box width="100%" overflow="auto">
@@ -86,15 +95,23 @@ const SimpleTable = () => {
           </TableRow>
         </TableHead>
 
-        <TableBody>
+        {/* <TableBody>
           {subscribarList.map((subscribarList, index) => (
             <TableRow key={index}>
               <TableCell align="center">{index + 1}</TableCell>
               <TableCell align="center">{subscribarList.name}</TableCell>
               <TableCell align="center">
-                {/* <Fab size="medium" color="primary" aria-label="Add" className="button">
-                  <Icon>add</Icon>
-                </Fab> */}
+                <FormDialog />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody> */}
+        <TableBody>
+          {insumos.map((insumo, index) => (
+            <TableRow key={index}>
+              <TableCell align="center">{insumo.id}</TableCell>
+              <TableCell align="center">{insumo.nombre}</TableCell>
+              <TableCell align="center">
                 <FormDialog />
               </TableCell>
             </TableRow>
