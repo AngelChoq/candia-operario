@@ -7,14 +7,6 @@ import {
   updateInsumoRequest,
   toggleInsumoDoneRequest,
 } from "../api/insumos.api";
-import {
-  getRecetasRequest,
-  deleteRecetaRequest,
-  createRecetaRequest,
-  getRecetaRequest,
-  updateRecetaRequest,
-  toggleRecetaDoneRequest,
-} from "../api/recetas.api";
 import { InsumoContext } from "./InsumoContext";
 
 //API INSUMOS
@@ -32,13 +24,6 @@ export const InsumoContextProvider = ({ children }) => {
   async function loadInsumos() {
     const response = await getInsumosRequest();
     setInsumos(response.data);
-  }
-
-  const [recetas, setRecetas] = useState([]);
-
-  async function loadRecetas() {
-    const response = await getRecetasRequest();
-    setRecetas(response.data);
   }
 
   const deleteInsumo = async (id) => {
@@ -91,57 +76,6 @@ export const InsumoContextProvider = ({ children }) => {
     }
   };
 
-  //API RECETAS
-  const deleteReceta = async (id) => {
-    try {
-      const response = await deleteRecetaRequest(id);
-      setRecetas(recetas.filter((receta) => receta.id !== id));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const createReceta = async (receta) => {
-    try {
-      await createRecetaRequest(receta);
-      // setInsumos([...insumos, response.data]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getReceta = async (id) => {
-    try {
-      const response = await getRecetaRequest(id);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateReceta = async (id, newFields) => {
-    try {
-      const response = await updateRecetaRequest(id, newFields);
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const toggleRecetaDone = async (id) => {
-    try {
-      const recetaFound = recetas.find((receta) => receta.id === id);
-      await toggleRecetaDoneRequest(id, recetaFound.done === 0 ? true : false);
-      setRecetas(
-        recetas.map((receta) =>
-        receta.id === id ? { ...receta, done: !receta.done } : receta
-        )
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <InsumoContext.Provider
       value={{
@@ -152,13 +86,6 @@ export const InsumoContextProvider = ({ children }) => {
         getInsumo,
         updateInsumo,
         toggleInsumoDone,
-        recetas,
-        loadRecetas,
-        deleteReceta,
-        createReceta,
-        getReceta,
-        updateReceta,
-        toggleRecetaDone,
       }}
     >
       {children}

@@ -15,6 +15,7 @@ import {
 import SimpleCheckbox from '../../material-kit/checkbox/SimpleCheckbox';
 import FormDialog from '../dialog/FormDialog';
 import { useInsumos } from "../../../../context/InsumoProvider";
+import { useRecetas } from "../../../../context/RecetaProvider";
 // import { getInsumosRequest } from '../../../../api/insumos.api';
 import { useEffect } from "react";
 
@@ -57,7 +58,7 @@ const subscribarList = [
 ];
 
 const SimpleTable = () => {
-  const { insumos, loadInsumos } = useInsumos();
+  const { recetas, loadRecetas } = useRecetas();
 
   // useEffect(() => {
   //   console.log('Ejecutando useEffect inicial');
@@ -76,13 +77,13 @@ const SimpleTable = () => {
   // }, []);
 
   useEffect(() => {
-    loadInsumos();
+    loadRecetas();
   }, []);
 
   useEffect(() => {
-    console.log("insumos");
-    console.log(insumos);
-  }, [insumos]);
+    console.log("recetas");
+    console.log(recetas);
+  }, [recetas]);
   
   return (
     <Box width="100%" overflow="auto">
@@ -107,10 +108,10 @@ const SimpleTable = () => {
           ))}
         </TableBody> */}
         <TableBody>
-          {insumos.map((insumo, index) => (
+          {recetas.map((receta, index) => (
             <TableRow key={index}>
-              <TableCell align="center">{insumo.id}</TableCell>
-              <TableCell align="center">{insumo.nombre}</TableCell>
+              <TableCell align="center">{receta.id}</TableCell>
+              <TableCell align="center">{receta.nombre}</TableCell>
               <TableCell align="center">
                 <FormDialog />
               </TableCell>
