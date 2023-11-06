@@ -9,7 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useInsumos } from "../../../../context/InsumoProvider";
 
-export default function FormDialog({ receta }) {
+export default function FormDialog({ receta, data }) {
   const { getInsumosReceta } = useInsumos();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -135,7 +135,7 @@ export default function FormDialog({ receta }) {
             <>
               <br />
               <Icon fontSize="large">check</Icon>
-              <TextField fullWidth id="peso" margin="dense" label="Peso" />
+              <TextField fullWidth id="peso" margin="dense" label="Peso" value={data} />
             </>
           ) : (
             <TextField

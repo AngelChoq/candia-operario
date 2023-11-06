@@ -29,7 +29,7 @@ const StyledTable = styled(Table)(({ theme }) => ({
   }
 }));
 
-const SimpleTable = () => {
+const SimpleTable = ({data}) => {
   const { recetas, loadRecetas } = useRecetas();
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const SimpleTable = () => {
               <TableCell align="center">{receta.id}</TableCell>
               <TableCell align="center">{receta.nombre}</TableCell>
               <TableCell align="center">
-                <FormDialog receta={receta}/>
+                <FormDialog receta={receta} data={data}/>
               </TableCell>
             </TableRow>
           ))}

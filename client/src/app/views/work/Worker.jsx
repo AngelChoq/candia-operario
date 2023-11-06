@@ -1,5 +1,5 @@
 import { Card, Grid, styled, useTheme, Box, Button } from '@mui/material';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import SimpleTable from './tables/SimpleTable';
 import { Breadcrumb, SimpleCard } from 'app/components';
 // const { SerialPort, ReadlineParser } = require('serialport');
@@ -48,6 +48,7 @@ const H4 = styled('h4')(({ theme }) => ({
 const Worker = () => {
   //console.log(SerialPort.list());
   const { palette } = useTheme();
+  const [data, setData] = useState("");
   const handleSerialPort = async (values) => {
     try {
       const port = await navigator.serial.requestPort();
@@ -60,7 +61,7 @@ const Worker = () => {
       console.log(info.usbVendorId);
       console.log(info.usbProductId);
       console.log(info.bluetoothServiceClassId);
-      await port.open({ baudRate: 115200 });
+      await port.open({ baudRate: 9600 });
       const reader = port.readable.getReader();
       // navigator.serial.getPorts().then((ports) => {
       //   console.log(ports);
@@ -70,7 +71,15 @@ const Worker = () => {
 
       while (true) {
         const { value, done } = await reader.read();
-        console.log(value);
+        var myString = new TextDecoder().decode(value);
+        myString = myString.match(/[0-9.]/g).join('');
+        let pattern = /\d+(\.\d+)/g;
+        let result = myString.match(pattern);
+        if (result != null) {
+          console.log(result[0]);
+          setData(result[0]);
+        }
+        // setData(value)
       }
     } catch (e) {
       console.log(e);
@@ -101,7 +110,7 @@ const Worker = () => {
       </Box>
       <Button onClick={handleSerialPort}>Iniciando Puertos</Button>
       <SimpleCard title="Seleccione Receta">
-        <SimpleTable />
+        <SimpleTable data={data}/>
       </SimpleCard>
     </Container>
   );
