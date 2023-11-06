@@ -40,10 +40,10 @@ insert into recetas (nombre) values ('receta1');
 insert into recetas (nombre) values ('receta2');
 insert into recetas (nombre) values ('receta3');
 
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo1',100.123,'codigo1',1);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo2',100.123,'codigo2',1);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo1',300.323,'codigo1',1);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo2',200.223,'codigo2',1);
 insert into insumos (nombre, peso, barras, receta_id) values ('insumo3',100.123,'codigo3',2);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo4',100.123,'codigo4',3);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo4',400.423,'codigo4',3);
 
 insert into productos (receta_id, nucleo, batch) values (1, 100.123, 200.432);
 insert into productos (receta_id, nucleo, batch) values (2, 20.123, 40.432);

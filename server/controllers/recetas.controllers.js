@@ -28,14 +28,13 @@ export const getReceta = async (req, res) => {
 
 export const createReceta = async (req, res) => {
   try {
-    const { insumo_id, nombre } = req.body;
+    const { nombre } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO recetas(insumo_id, nombre) VALUES (?, ?)",
-      [insumo_id, nombre]
+      "INSERT INTO recetas(nombre) VALUES (?)",
+      [nombre]
     );
     res.json({
       id: result.insertId,
-      insumo_id,
       nombre,
     });
   } catch (error) {

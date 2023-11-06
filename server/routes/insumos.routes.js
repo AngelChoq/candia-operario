@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   getInsumos,
   getInsumo,
+  getInsumosReceta,
   createInsumo,
   deleteInsumo,
   updateInsumo,
@@ -12,6 +13,8 @@ const router = Router();
 router.get("/insumos", getInsumos);
 
 router.get("/insumos/:id", getInsumo);
+
+router.get("/insumos-receta/:receta_id", getInsumosReceta);
 
 router.post("/insumos", createInsumo);
 

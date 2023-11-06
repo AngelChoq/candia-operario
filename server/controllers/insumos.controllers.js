@@ -12,6 +12,21 @@ export const getInsumos = async (req, res) => {
   }
 };
 
+export const getInsumosReceta = async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT * FROM insumos WHERE receta_id = ?", [
+      req.params.receta_id,
+    ]);
+
+    if (result.length === 0)
+      return res.status(404).json({ message: "Insumo not found" });
+
+    res.json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const getInsumo = async (req, res) => {
   try {
     const [result] = await pool.query("SELECT * FROM insumos WHERE id = ?", [
@@ -31,15 +46,17 @@ export const createInsumo = async (req, res) => {
   // res.send('creando insumos');
   // res.send(req.body);
   try {
-    const { nombre, peso } = req.body;
+    const { nombre, peso, barras, receta_id } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO insumos(nombre, peso) VALUES (?, ?)",
-      [nombre, peso]
+      "INSERT INTO insumos(nombre, peso, barras, receta_id) VALUES (?, ?, ?, ?)",
+      [nombre, peso, barras, receta_id]
     );
     res.json({
       id: result.insertId,
       nombre:nombre,
       peso:peso,
+      barras:barras,
+      receta_id:receta_id,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

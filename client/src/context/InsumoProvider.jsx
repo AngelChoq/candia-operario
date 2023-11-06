@@ -4,6 +4,7 @@ import {
   deleteInsumoRequest,
   createInsumoRequest,
   getInsumoRequest,
+  getInsumosRecetaRequest,
   updateInsumoRequest,
   toggleInsumoDoneRequest,
 } from "../api/insumos.api";
@@ -53,10 +54,18 @@ export const InsumoContextProvider = ({ children }) => {
     }
   };
 
+  const getInsumosReceta = async (receta_id) => {
+    try {
+      const response = await getInsumosRecetaRequest(receta_id);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const updateInsumo = async (id, newFields) => {
     try {
       const response = await updateInsumoRequest(id, newFields);
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -84,6 +93,7 @@ export const InsumoContextProvider = ({ children }) => {
         deleteInsumo,
         createInsumo,
         getInsumo,
+        getInsumosReceta,
         updateInsumo,
         toggleInsumoDone,
       }}

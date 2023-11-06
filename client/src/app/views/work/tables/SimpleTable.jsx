@@ -29,61 +29,12 @@ const StyledTable = styled(Table)(({ theme }) => ({
   }
 }));
 
-const subscribarList = [
-  {
-    name: 'receta 1',
-    total: 500,
-    bach: 1
-  },
-  {
-    name: 'receta 2',
-    total: 1000,
-    bach: 2
-  },
-  {
-    name: 'receta 3',
-    total: 750,
-    bach: 1.5
-  },
-  {
-    name: 'receta 4',
-    total: 5,
-    bach: 3
-  },
-  {
-    name: 'receta 5',
-    total: 2,
-    bach: 96
-  }
-];
-
 const SimpleTable = () => {
   const { recetas, loadRecetas } = useRecetas();
-
-  // useEffect(() => {
-  //   console.log('Ejecutando useEffect inicial');
-  //   // loadInsumos();
-  //   async function loadInsumos(){
-  //     console.log("Antes de ejecutar getInsumosRequest")
-  //     const response = await getInsumosRequest();
-  //     // const insumos = await response.json();
-  //     // console.log("insumos")
-  //     // console.log(insumos);
-  //     console.log("response")
-  //     console.log(response);
-  //   }
-  //   loadInsumos();
-  //   // console.log("insumos",insumos);
-  // }, []);
 
   useEffect(() => {
     loadRecetas();
   }, []);
-
-  useEffect(() => {
-    console.log("recetas");
-    console.log(recetas);
-  }, [recetas]);
   
   return (
     <Box width="100%" overflow="auto">
@@ -95,25 +46,13 @@ const SimpleTable = () => {
             <TableCell align="center">Habilitar</TableCell>
           </TableRow>
         </TableHead>
-
-        {/* <TableBody>
-          {subscribarList.map((subscribarList, index) => (
-            <TableRow key={index}>
-              <TableCell align="center">{index + 1}</TableCell>
-              <TableCell align="center">{subscribarList.name}</TableCell>
-              <TableCell align="center">
-                <FormDialog />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody> */}
         <TableBody>
           {recetas.map((receta, index) => (
             <TableRow key={index}>
               <TableCell align="center">{receta.id}</TableCell>
               <TableCell align="center">{receta.nombre}</TableCell>
               <TableCell align="center">
-                <FormDialog />
+                <FormDialog receta={receta}/>
               </TableCell>
             </TableRow>
           ))}
