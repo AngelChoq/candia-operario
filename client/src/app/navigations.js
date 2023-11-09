@@ -1,6 +1,6 @@
 export const navigations = [
   // { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
-  { name: 'Administrador', path: '/admin/administrator', icon: 'storage' },
+  { name: 'Historial', path: '/admin/administrator', icon: 'storage' },
   { name: 'Trabajador', path: '/work/worker', icon: 'play_for_work' }
   // { label: 'PAGES', type: 'label' },
   // {
