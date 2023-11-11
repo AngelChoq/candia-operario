@@ -9,12 +9,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useInsumos } from "../../../../context/InsumoProvider";
 import { useProductos } from "../../../../context/ProductoProvider";
+import { useIngredientes } from "../../../../context/IngredienteProvider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { set } from "lodash";
 
 export default function FormDialog({ producto, data }) {
   const { getInsumosReceta } = useInsumos();
-  const { updateProducto } = useProductos();
+  const { updateProducto, loadProductosPedidos } = useProductos();
+  const { createIngrediente } = useIngredientes();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [insumos, setInsumos] = useState([]);
@@ -22,6 +24,7 @@ export default function FormDialog({ producto, data }) {
   const [pRegistrado, setPRegistrado] = useState(0.0);
   const [pAcumulado, setPAcumulado] = useState(0.0);
   const [ingredientes, setIngredientes] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     if (open && insumos.length == 0) {
@@ -65,7 +68,10 @@ export default function FormDialog({ producto, data }) {
       insumo_id: selected.id,
       peso: pRegistrado,
     };
-    setIngredientes(prevIngredientes => [...prevIngredientes, ingredienteTemp]);
+    setIngredientes((prevIngredientes) => [
+      ...prevIngredientes,
+      ingredienteTemp,
+    ]);
     setInsumos(updatedInsumos);
     setPRegistrado(0.0);
     setChecked(false);
@@ -80,7 +86,7 @@ export default function FormDialog({ producto, data }) {
     setInsumos([]);
     setIngredientes({});
     setOpen(false);
-  }
+  };
 
   const handleRegistrar = () => {
     var ingredienteTemp = {
@@ -88,12 +94,18 @@ export default function FormDialog({ producto, data }) {
       insumo_id: selected.id,
       peso: pRegistrado,
     };
-    setIngredientes(prevIngredientes => [...prevIngredientes, ingredienteTemp]);
+    var ingredientesTemp = ingredientes;
+    ingredientesTemp.push(ingredienteTemp);
+    console.log("ingredientesTemp", ingredientesTemp);
+    ingredientesTemp.map(async (ingrediente) => {
+      await createIngrediente(ingrediente);
+    });
     const upProducto = async () => {
       if (producto.id) {
         await updateProducto(producto.id, { nucleo: pRegistrado });
+        loadProductosPedidos();
       }
-    }
+    };
     upProducto();
     setChecked(false);
     setPRegistrado(0.0);
@@ -101,7 +113,7 @@ export default function FormDialog({ producto, data }) {
     setSelected({});
     setInsumos([]);
     setOpen(false);
-  }
+  };
 
   const handleOpen = () => setOpen(true);
 
@@ -209,6 +221,21 @@ export default function FormDialog({ producto, data }) {
                     />
                   </Grid>
                   <Grid item xs={5} justify="center">
+                    {/* <Button
+                      variant="contained"
+                      style={{ fontSize: "10px" }}
+                      startIcon={<AddCircleIcon />}
+                      onClick={() => {
+                        setIsButtonDisabled(true);
+                        setTimeout(() => {
+                          handleButtonClick();
+                          setIsButtonDisabled(false);
+                        }, 1000); // 1000 milliseconds = 1 second
+                      }}
+                      disabled={isButtonDisabled}
+                    >
+                      Registrar Bolsa
+                    </Button> */}
                     <Button
                       variant="contained"
                       style={{ fontSize: "10px" }}
@@ -238,24 +265,24 @@ export default function FormDialog({ producto, data }) {
             Cancelar
           </Button>
           {insumos.filter((insumo) => !insumo.validado).length > 1 &&
-            pRegistrado === (selected.peso * producto.pedido) && (
-              <Button
-                variant="contained"
-                onClick={handleNext}
-                color="primary"
-              >
+            pRegistrado === selected.peso * producto.pedido && (
+              <Button variant="contained" onClick={handleNext} color="primary">
                 Siguiente
               </Button>
             )}
           {insumos.filter((insumo) => !insumo.validado).length > 1 &&
-            pRegistrado > (selected.peso * producto.pedido) && (
+            pRegistrado > selected.peso * producto.pedido && (
               <Button variant="contained" color="error" onClick={handleNext}>
                 Forzar Pesado
               </Button>
             )}
           {insumos.filter((insumo) => !insumo.validado).length === 1 &&
-            pRegistrado >= (selected.peso * producto.pedido) && (
-              <Button variant="outlined" color="success" onClick={handleRegistrar}>
+            pRegistrado >= selected.peso * producto.pedido && (
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={handleRegistrar}
+              >
                 Registrar
               </Button>
             )}

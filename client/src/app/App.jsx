@@ -4,6 +4,7 @@ import { MatxTheme } from "./components";
 // import { AuthProvider } from './contexts/JWTAuthContext';
 import { RecetaContextProvider } from "../context/RecetaProvider";
 import { InsumoContextProvider } from "../context/InsumoProvider";
+import { IngredienteContextProvider } from "../context/IngredienteProvider";
 import { SettingsProvider } from "./contexts/SettingsContext";
 import routes from "./routes";
 import "../fake-db";
@@ -16,14 +17,16 @@ const App = () => {
     <SettingsProvider>
       {/* <AuthProvider> */}
       <ProductoContextProvider>
-      <RecetaContextProvider>
-        <InsumoContextProvider>
-          <MatxTheme>
-            <CssBaseline />
-            {content}
-          </MatxTheme>
-        </InsumoContextProvider>
-      </RecetaContextProvider>
+        <RecetaContextProvider>
+          <InsumoContextProvider>
+            <IngredienteContextProvider>
+              <MatxTheme>
+                <CssBaseline />
+                {content}
+              </MatxTheme>
+            </IngredienteContextProvider>
+          </InsumoContextProvider>
+        </RecetaContextProvider>
       </ProductoContextProvider>
       {/* </AuthProvider> */}
     </SettingsProvider>
