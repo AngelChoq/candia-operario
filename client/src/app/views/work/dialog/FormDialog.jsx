@@ -8,18 +8,20 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useInsumos } from "../../../../context/InsumoProvider";
+import { useProductos } from "../../../../context/ProductoProvider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { set } from "lodash";
 
 export default function FormDialog({ producto, data }) {
   const { getInsumosReceta } = useInsumos();
+  const { updateProducto } = useProductos();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [insumos, setInsumos] = useState([]);
   const [selected, setSelected] = useState({});
   const [pRegistrado, setPRegistrado] = useState(0.0);
   const [pAcumulado, setPAcumulado] = useState(0.0);
-  const [pProducido, setPProducido] = useState({});
+  const [ingredientes, setIngredientes] = useState([]);
 
   useEffect(() => {
     if (open && insumos.length == 0) {
@@ -50,11 +52,20 @@ export default function FormDialog({ producto, data }) {
   // useEffect(() => {
   //   console.log("selected", selected);
   // }, [selected]);
+  useEffect(() => {
+    console.log("ingredientes", ingredientes);
+  }, [ingredientes]);
 
   const handleNext = () => {
     const updatedInsumos = insumos.map((insumo) =>
       insumo.id === selected.id ? { ...insumo, validado: true } : insumo
     );
+    var ingredienteTemp = {
+      producto_id: producto.id,
+      insumo_id: selected.id,
+      peso: pRegistrado,
+    };
+    setIngredientes(prevIngredientes => [...prevIngredientes, ingredienteTemp]);
     setInsumos(updatedInsumos);
     setPRegistrado(0.0);
     setChecked(false);
@@ -67,7 +78,28 @@ export default function FormDialog({ producto, data }) {
     setPAcumulado(0.0);
     setSelected({});
     setInsumos([]);
-    setPProducido({});
+    setIngredientes({});
+    setOpen(false);
+  }
+
+  const handleRegistrar = () => {
+    var ingredienteTemp = {
+      producto_id: producto.id,
+      insumo_id: selected.id,
+      peso: pRegistrado,
+    };
+    setIngredientes(prevIngredientes => [...prevIngredientes, ingredienteTemp]);
+    const upProducto = async () => {
+      if (producto.id) {
+        await updateProducto(producto.id, { nucleo: pRegistrado });
+      }
+    }
+    upProducto();
+    setChecked(false);
+    setPRegistrado(0.0);
+    setPAcumulado(0.0);
+    setSelected({});
+    setInsumos([]);
     setOpen(false);
   }
 
@@ -223,7 +255,7 @@ export default function FormDialog({ producto, data }) {
             )}
           {insumos.filter((insumo) => !insumo.validado).length === 1 &&
             pRegistrado >= (selected.peso * producto.pedido) && (
-              <Button variant="outlined" color="success" onClick={handleClose}>
+              <Button variant="outlined" color="success" onClick={handleRegistrar}>
                 Registrar
               </Button>
             )}
