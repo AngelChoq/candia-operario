@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Fab, Icon } from "@mui/material";
+import { Box, Fab, Grid, Icon } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useInsumos } from "../../../../context/InsumoProvider";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 export default function FormDialog({ receta, data }) {
   const { getInsumosReceta } = useInsumos();
@@ -15,6 +16,7 @@ export default function FormDialog({ receta, data }) {
   const [checked, setChecked] = useState(false);
   const [insumos, setInsumos] = useState([]);
   const [selected, setSelected] = useState({});
+  const [pAcumulado, setPAcumulado] = useState(0.0);
 
   useEffect(() => {
     if (open && insumos.length == 0) {
@@ -39,22 +41,29 @@ export default function FormDialog({ receta, data }) {
     }
   }, [insumos]);
 
-  useEffect(() => {
-    console.log("selected", selected);
-  }, [selected]);
+  // useEffect(() => {
+  //   console.log("selected", selected);
+  // }, [selected]);
 
   const handleRefresh = () => {
-    var temp = insumos;
-    var tempSel = selected;
-    setInsumos(
-      temp.map((tempInsumo) => {
-        if (tempInsumo.id == tempSel.id) {
-          tempInsumo.validado = true;
-        }
-      })
+    console.log("insumos", insumos);
+    console.log("selected", selected);
+    // var temp = insumos;
+    // var tempSel = selected;
+    // setInsumos(
+    //   temp.map((tempInsumo) => {
+    //     if (tempInsumo.id == tempSel.id) {
+    //       tempInsumo.validado = true;
+    //     }
+    //   })
+    // );
+    // handleClose();
+    // handleOpen();
+    const updatedInsumos = insumos.map((insumo) =>
+      insumo.id === selected.id ? { ...insumo, validado: true } : insumo
     );
-    handleClose();
-    handleOpen();
+    console.log("updatedInsumos", updatedInsumos);
+    setInsumos(updatedInsumos);
   };
 
   const handleClickOpen = () => setOpen(true);
@@ -77,6 +86,13 @@ export default function FormDialog({ receta, data }) {
     console.log(`New value for ${field}: ${newValue}`);
   }
 
+  const handleButtonClick = () => {
+    const newValue = parseFloat(data);
+    if (!isNaN(newValue)) {
+      setPAcumulado((prevPAcumulado) => prevPAcumulado + newValue);
+    }
+  };
+
   return (
     <Box>
       <Fab
@@ -97,68 +113,105 @@ export default function FormDialog({ receta, data }) {
         <DialogTitle id="form-dialog-title">{receta.nombre}</DialogTitle>
 
         <DialogContent>
-          <DialogContentText>
-            {/* <StyledTable>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Insumo</TableCell>
-                  <TableCell align="center">Peso Kg</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {subscribarList.map((subscribarList, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{subscribarList.name}</TableCell>
-                    <TableCell align="center">{subscribarList.weight}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </StyledTable> */}
-          </DialogContentText>
-          {selected.nombre}
-          <br />
-          {selected.peso ? (
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <DialogContentText></DialogContentText>
+            {selected.nombre}
+            <br />
+            {selected.peso ? (
+              <TextField
+                id="filled-read-only-input"
+                value={selected.peso}
+                InputProps={{
+                  readOnly: true,
+                }}
+                variant="filled"
+              />
+            ) : (
+              <></>
+            )}
+            Peso Acumulado
             <TextField
               id="filled-read-only-input"
-              value={selected.peso}
+              value={pAcumulado}
               InputProps={{
                 readOnly: true,
               }}
               variant="filled"
             />
-          ) : (
-            <></>
-          )}
-
-          {checked ? (
-            <>
-              <br />
-              <Icon fontSize="large">check</Icon>
-              <TextField fullWidth id="peso" margin="dense" label="Peso" value={data} />
-            </>
-          ) : (
-            <TextField
-              fullWidth
-              autoFocus
-              id="insumo"
-              margin="dense"
-              label="Insumo"
-              onChange={(event) => handleInputChange(event, "insumo")}
-            />
-          )}
+            {checked ? (
+              <>
+                <br />
+                <Icon style={{ fontSize: 50 }}>check</Icon>
+                <Grid
+                  container
+                  spacing={1}
+                  alignItems="center"
+                  justify="center"
+                >
+                  <Grid item xs={7} justify="center">
+                    <TextField
+                      fullWidth
+                      id="peso"
+                      margin="dense"
+                      label="Peso"
+                      value={data}
+                    />
+                  </Grid>
+                  <Grid item xs={5} justify="center">
+                    <Button
+                      variant="contained"
+                      style={{ fontSize: "10px" }}
+                      startIcon={<AddCircleIcon />}
+                      onClick={handleButtonClick}
+                    >
+                      Registrar Bolsa
+                    </Button>
+                  </Grid>
+                </Grid>
+              </>
+            ) : (
+              <TextField
+                fullWidth
+                autoFocus
+                id="insumo"
+                margin="dense"
+                label="Insumo"
+                onChange={(event) => handleInputChange(event, "insumo")}
+              />
+            )}
+          </Box>
         </DialogContent>
 
         <DialogActions>
           <Button variant="outlined" color="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button onClick={handleRefresh} color="primary">
-            Siguiente
-          </Button>
-          <Button variant="outlined" color="warning" onClick={handleClose}>
-            Forzar Pesado
-          </Button>
+          {insumos.filter((insumo) => !insumo.validado).length > 1 &&
+            pAcumulado === selected.peso && (
+              <Button
+                variant="contained"
+                onClick={handleRefresh}
+                color="primary"
+              >
+                Siguiente
+              </Button>
+            )}
+          {insumos.filter((insumo) => !insumo.validado).length > 1 &&
+            pAcumulado > selected.peso && (
+              <Button variant="contained" color="error" onClick={handleRefresh}>
+                Forzar Pesado
+              </Button>
+            )}
+          {insumos.filter((insumo) => !insumo.validado).length === 1 && (
+            <Button variant="outlined" color="success" onClick={handleClose}>
+              Registrar
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Box>

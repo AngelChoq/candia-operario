@@ -49,53 +49,99 @@ const Worker = () => {
   //console.log(SerialPort.list());
   const { palette } = useTheme();
   const [data, setData] = useState("");
-  const handleSerialPort = async (values) => {
+  // const handleSerialPort = async (values) => {
+  //   try {
+  //     const port = await navigator.serial.requestPort();
+  //     const info = port.getInfo();
+  //     console.log(info.usbVendorId);
+  //     console.log(info.usbProductId);
+  //     console.log(info.bluetoothServiceClassId);
+  //     await port.open({ baudRate: 9600 });
+  //     const reader = port.readable.getReader();
+
+  //     while (true) {
+  //       const { value, done } = await reader.read();
+  //       var myString = new TextDecoder().decode(value);
+  //       myString = myString.match(/[0-9.]/g).join('');
+  //       let pattern = /\d+(\.\d+)/g;
+  //       let result = myString.match(pattern);
+  //       if (result != null) {
+  //         console.log(info.usbProductId+"-"+result[0]);
+  //         setData(result[0]);
+  //       }
+  //       // setData(value)
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  async function readFromPort() {
+    // try {
+    //   const port = await navigator.serial.requestPort();
+    //   const info = port.getInfo();
+    //   console.log(info.usbVendorId);
+    //   console.log(info.usbProductId);
+    //   console.log(info.bluetoothServiceClassId);
+    //   await port.open({ baudRate: 9600 });
+    //   const reader = port.readable.getReader();
+  
+    //   while (true) {
+    //     const { value, done } = await reader.read();
+    //     var myString = new TextDecoder().decode(value);
+    //     myString = myString.match(/[0-9.]/g).join('');
+    //     let pattern = /\d+(\.\d+)/g;
+    //     let result = myString.match(pattern);
+    //     if (result != null) {
+    //       console.log(info.usbProductId+"-"+result[0]);
+    //       setData(result[0]);
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
+
+    let ports = [];
+
     try {
       const port = await navigator.serial.requestPort();
-      // console.log(
-      //   await navigator.serial.getPorts().then((port) => {
-      //     console.log(port.name);
-      //   })
-      // );
-      const info = port.getInfo();
-      console.log(info.usbVendorId);
-      console.log(info.usbProductId);
-      console.log(info.bluetoothServiceClassId);
+  
+      // Check if the port is already open
+      if (ports.includes(port)) {
+        console.log('This port is already open');
+        return;
+      }
+  
       await port.open({ baudRate: 9600 });
-      const reader = port.readable.getReader();
-      // navigator.serial.getPorts().then((ports) => {
-      //   console.log(ports);
-      // });
-
-      // listSerialPorts();
-
-      while (true) {
-        const { value, done } = await reader.read();
-        var myString = new TextDecoder().decode(value);
-        myString = myString.match(/[0-9.]/g).join('');
-        let pattern = /\d+(\.\d+)/g;
-        let result = myString.match(pattern);
-        if (result != null) {
-          console.log(result[0]);
-          setData(result[0]);
+      ports.push(port);
+  
+      if (port.readable) {
+        const reader = port.readable.getReader();
+        const info = await port.getInfo();
+        const d = new Date();
+  
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) {
+            // The reader has been canceled.
+            break;
+          }
+          var myString = new TextDecoder().decode(value);
+          myString = myString.match(/[0-9.]/g).join('');
+          let pattern = /\d+(\.\d+)/g;
+          let result = myString.match(pattern);
+          if (result != null) {
+            console.log(`Data from port ${d.getTime()}: ${result[0]}`);
+            console.log(result[0]);
+            setData(result[0]);
+          }
         }
-        // setData(value)
+      } else {
+        console.log('Port is not readable');
       }
     } catch (e) {
       console.log(e);
     }
-  };
-
-  // async function listSerialPorts() {
-  //   const ports = await navigator.serial.getPorts();
-  //   return ports;
-  // }
-
-  async function listSerialPorts() {
-    const ports = await navigator.serial.getPorts();
-    ports.forEach((port) => {
-      console.log(`Nombre: ${port.name}, Tipo: ${port.type}`);
-    });
   }
 
   return (
@@ -108,7 +154,7 @@ const Worker = () => {
           ]}
         />
       </Box>
-      <Button onClick={handleSerialPort}>Iniciando Puertos</Button>
+      <Button onClick={readFromPort}>Iniciando Puertos</Button>
       <SimpleCard title="Seleccione Receta">
         <SimpleTable data={data}/>
       </SimpleCard>
