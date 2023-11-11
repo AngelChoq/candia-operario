@@ -13,6 +13,9 @@ import {
 } from '@mui/material';
 import SimpleCheckbox from '../../material-kit/checkbox/SimpleCheckbox';
 import FormDialog from '../dialog/FormDialog';
+import { useEffect } from "react";
+import { useProductos } from 'context/ProductoProvider';
+import moment from 'moment-timezone';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: 'pre',
@@ -24,91 +27,32 @@ const StyledTable = styled(Table)(({ theme }) => ({
   }
 }));
 
-const subscribarList = [
-  {
-    name: 'receta 1',
-    total: 500,
-    bach: 1,
-    checked: true
-  },
-  {
-    name: 'receta 2',
-    total: 1000,
-    bach: 2,
-    checked: true
-  },
-  {
-    name: 'receta 3',
-    total: 750,
-    bach: 1.5,
-    checked: true
-  },
-  {
-    name: 'receta 4',
-    total: 1250,
-    bach: 2.5,
-    checked: true
-  },
-  {
-    name: 'receta 5',
-    total: 1500,
-    bach: 3,
-    checked: true
-  },
-  {
-    name: 'receta 6',
-    total: 250,
-    bach: 0.5,
-    checked: false
-  }
-];
-
 const SimpleTable = () => {
+  const { productos, loadProductos } = useProductos();
+  useEffect(() => {
+    loadProductos();
+  }, []);
   return (
     <Box width="100%" overflow="auto">
       <StyledTable>
         <TableHead>
           <TableRow>
             <TableCell align="center">Item</TableCell>
-            <TableCell align="center">Núcleo</TableCell>
-            <TableCell align="center">Total</TableCell>
+            <TableCell align="center">Nombre</TableCell>
+            <TableCell align="center">Nucleo</TableCell>
             <TableCell align="center">Bach</TableCell>
-            <TableCell align="center">Habilitar</TableCell>
-            <TableCell align="center">Insumos</TableCell>
+            <TableCell align="center">Fecha</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {subscribarList.map((subscribarList, index) => (
-            <TableRow key={index}>
-              <TableCell align="center">{index + 1}</TableCell>
-              <TableCell align="center">{subscribarList.name}</TableCell>
-              <TableCell align="center">
-                <TextField
-                  id="standard-basic"
-                  variant="outlined"
-                  defaultValue={subscribarList.total}
-                />
-              </TableCell>
-              <TableCell align="center">
-                <TextField
-                  id="standard-basic"
-                  variant="outlined"
-                  defaultValue={subscribarList.bach}
-                />
-              </TableCell>
-              <TableCell align="center">
-                <IconButton>
-                  <Checkbox
-                    value="checkedA"
-                    checked={subscribarList.checked}
-                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                  />
-                </IconButton>
-              </TableCell>
-              <TableCell align="center">
-                <FormDialog />
-              </TableCell>
+          {productos.map((producto) => (
+            <TableRow key={producto.id}>
+              <TableCell align="center">{producto.id}</TableCell>
+              <TableCell align="center">receta{producto.id}</TableCell>
+              <TableCell align="center">{producto.nucleo}</TableCell>
+              <TableCell align="center">{producto.batch}</TableCell>
+              <TableCell align="center">{moment(producto.createAt).tz('America/Lima').format('DD/MM/YYYY HH:mm:ss')}</TableCell>
             </TableRow>
           ))}
         </TableBody>

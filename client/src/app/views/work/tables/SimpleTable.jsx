@@ -41,9 +41,9 @@ const SimpleTable = ({data}) => {
       <StyledTable>
         <TableHead>
           <TableRow>
-            <TableCell align="center">Item Prueba</TableCell>
-            <TableCell align="center">Receta</TableCell>
-            <TableCell align="center">Habilitar</TableCell>
+            <TableCell align="center">CÓDIGO</TableCell>
+            <TableCell align="center">RECETA</TableCell>
+            <TableCell align="center">ACCIONES</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

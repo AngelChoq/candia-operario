@@ -46,24 +46,11 @@ export default function FormDialog({ receta, data }) {
   // }, [selected]);
 
   const handleRefresh = () => {
-    console.log("insumos", insumos);
-    console.log("selected", selected);
-    // var temp = insumos;
-    // var tempSel = selected;
-    // setInsumos(
-    //   temp.map((tempInsumo) => {
-    //     if (tempInsumo.id == tempSel.id) {
-    //       tempInsumo.validado = true;
-    //     }
-    //   })
-    // );
-    // handleClose();
-    // handleOpen();
     const updatedInsumos = insumos.map((insumo) =>
       insumo.id === selected.id ? { ...insumo, validado: true } : insumo
     );
-    console.log("updatedInsumos", updatedInsumos);
     setInsumos(updatedInsumos);
+    setPAcumulado(0.0);
   };
 
   const handleClickOpen = () => setOpen(true);
@@ -207,7 +194,8 @@ export default function FormDialog({ receta, data }) {
                 Forzar Pesado
               </Button>
             )}
-          {insumos.filter((insumo) => !insumo.validado).length === 1 && (
+          {insumos.filter((insumo) => !insumo.validado).length === 1 &&
+            pAcumulado >= selected.peso && (
             <Button variant="outlined" color="success" onClick={handleClose}>
               Registrar
             </Button>

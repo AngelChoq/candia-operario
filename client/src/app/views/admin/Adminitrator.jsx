@@ -61,9 +61,9 @@ const Adminitrator = () => {
         />
       </Box>
       <SimpleCard title="Recetas">
-        <StyledButton variant="contained" color="primary" size="large" justify="center">
+        {/* <StyledButton variant="contained" color="primary" size="large" justify="center">
           Guardar Cambios
-        </StyledButton>
+        </StyledButton> */}
         <SimpleTable />
       </SimpleCard>
     </Container>

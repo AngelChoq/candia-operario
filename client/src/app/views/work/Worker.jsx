@@ -154,7 +154,7 @@ const Worker = () => {
           ]}
         />
       </Box>
-      <Button onClick={readFromPort}>Iniciando Puertos</Button>
+      <Button  variant="contained" color="primary" onClick={readFromPort}>Conectar Balanza</Button>
       <SimpleCard title="Seleccione Receta">
         <SimpleTable data={data}/>
       </SimpleCard>

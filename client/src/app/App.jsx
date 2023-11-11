@@ -7,6 +7,7 @@ import { InsumoContextProvider } from "../context/InsumoProvider";
 import { SettingsProvider } from "./contexts/SettingsContext";
 import routes from "./routes";
 import "../fake-db";
+import { ProductoContextProvider } from "context/ProductoProvider";
 
 const App = () => {
   const content = useRoutes(routes);
@@ -14,6 +15,7 @@ const App = () => {
   return (
     <SettingsProvider>
       {/* <AuthProvider> */}
+      <ProductoContextProvider>
       <RecetaContextProvider>
         <InsumoContextProvider>
           <MatxTheme>
@@ -22,6 +24,7 @@ const App = () => {
           </MatxTheme>
         </InsumoContextProvider>
       </RecetaContextProvider>
+      </ProductoContextProvider>
       {/* </AuthProvider> */}
     </SettingsProvider>
   );
