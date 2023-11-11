@@ -9,22 +9,22 @@ import {
   TableHead,
   TableRow,
   Checkbox,
-  TextField
-} from '@mui/material';
-import SimpleCheckbox from '../../material-kit/checkbox/SimpleCheckbox';
-import FormDialog from '../dialog/FormDialog';
+  TextField,
+} from "@mui/material";
+import SimpleCheckbox from "../../material-kit/checkbox/SimpleCheckbox";
+import FormDialog from "../dialog/FormDialog";
 import { useEffect } from "react";
-import { useProductos } from 'context/ProductoProvider';
-import moment from 'moment-timezone';
+import { useProductos } from "context/ProductoProvider";
+import moment from "moment-timezone";
 
 const StyledTable = styled(Table)(({ theme }) => ({
-  whiteSpace: 'pre',
-  '& thead': {
-    '& tr': { '& th': { paddingLeft: 0, paddingRight: 0 } }
+  whiteSpace: "pre",
+  "& thead": {
+    "& tr": { "& th": { paddingLeft: 0, paddingRight: 0 } },
   },
-  '& tbody': {
-    '& tr': { '& td': { paddingLeft: 0, textTransform: 'capitalize' } }
-  }
+  "& tbody": {
+    "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
+  },
 }));
 
 const SimpleTable = () => {
@@ -37,24 +37,30 @@ const SimpleTable = () => {
       <StyledTable>
         <TableHead>
           <TableRow>
-            <TableCell align="center">Item</TableCell>
-            <TableCell align="center">Nombre</TableCell>
-            <TableCell align="center">Nucleo</TableCell>
-            <TableCell align="center">Bach</TableCell>
-            <TableCell align="center">Fecha</TableCell>
+            <TableCell align="center">NÚMERO</TableCell>
+            <TableCell align="center">NOMBRE</TableCell>
+            <TableCell align="center">P. SOLICITADO (kg)</TableCell>
+            <TableCell align="center">P. PRODUCIDO (kg)</TableCell>
+            <TableCell align="center">FECHAS</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {productos.map((producto) => (
-            <TableRow key={producto.id}>
-              <TableCell align="center">{producto.id}</TableCell>
-              <TableCell align="center">receta{producto.id}</TableCell>
-              <TableCell align="center">{producto.nucleo}</TableCell>
-              <TableCell align="center">{producto.batch}</TableCell>
-              <TableCell align="center">{moment(producto.createAt).tz('America/Lima').format('DD/MM/YYYY HH:mm:ss')}</TableCell>
-            </TableRow>
-          ))}
+          {productos
+            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt))
+            .map((producto) => (
+              <TableRow key={producto.id}>
+                <TableCell align="center">{producto.id}</TableCell>
+                <TableCell align="center">receta{producto.id}</TableCell>
+                <TableCell align="center">{producto.pedido}</TableCell>
+                <TableCell align="center">{producto.nucleo}</TableCell>
+                <TableCell align="center">
+                  {moment(producto.createAt)
+                    .tz("America/Lima")
+                    .format("DD/MM/YYYY HH:mm:ss")}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </StyledTable>
     </Box>

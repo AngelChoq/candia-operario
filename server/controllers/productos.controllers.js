@@ -3,7 +3,18 @@ import { pool } from "../db.js";
 export const getProductos = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM productos ORDER BY createAt ASC"
+      "SELECT * FROM productos WHERE nucleo IS NOT NULL  ORDER BY createAt ASC"
+    );
+    res.json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getProductosPedidos = async (req, res) => {
+  try {
+    const [result] = await pool.query(
+      "SELECT * FROM productos WHERE nucleo IS NULL ORDER BY createAt ASC"
     );
     res.json(result);
   } catch (error) {

@@ -4,6 +4,7 @@ import {
   deleteProductoRequest,
   createProductoRequest,
   getProductoRequest,
+  getProductosPedidosRequest,
   getProductosRecetaRequest,
   updateProductoRequest,
   toggleProductoDoneRequest,
@@ -24,6 +25,11 @@ export const ProductoContextProvider = ({ children }) => {
 
   async function loadProductos() {
     const response = await getProductosRequest();
+    setProductos(response.data);
+  }
+
+  async function loadProductosPedidos() {
+    const response = await getProductosPedidosRequest();
     setProductos(response.data);
   }
 
@@ -81,6 +87,7 @@ export const ProductoContextProvider = ({ children }) => {
       value={{
         productos,
         loadProductos,
+        loadProductosPedidos,
         deleteProducto,
         createProducto,
         getProducto,

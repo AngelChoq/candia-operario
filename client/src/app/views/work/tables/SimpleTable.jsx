@@ -14,8 +14,7 @@ import {
 } from '@mui/material';
 import SimpleCheckbox from '../../material-kit/checkbox/SimpleCheckbox';
 import FormDialog from '../dialog/FormDialog';
-import { useInsumos } from "../../../../context/InsumoProvider";
-import { useRecetas } from "../../../../context/RecetaProvider";
+import { useProductos } from "../../../../context/ProductoProvider";
 // import { getInsumosRequest } from '../../../../api/insumos.api';
 import { useEffect } from "react";
 
@@ -30,10 +29,10 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 const SimpleTable = ({data}) => {
-  const { recetas, loadRecetas } = useRecetas();
+  const { productos, loadProductosPedidos } = useProductos();
 
   useEffect(() => {
-    loadRecetas();
+    loadProductosPedidos();
   }, []);
   
   return (
@@ -43,16 +42,18 @@ const SimpleTable = ({data}) => {
           <TableRow>
             <TableCell align="center">CÓDIGO</TableCell>
             <TableCell align="center">RECETA</TableCell>
+            <TableCell align="center">P. SOLICITADO (kg)</TableCell>
             <TableCell align="center">ACCIONES</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {recetas.map((receta, index) => (
+          {productos.map((producto, index) => (
             <TableRow key={index}>
-              <TableCell align="center">{receta.id}</TableCell>
-              <TableCell align="center">{receta.nombre}</TableCell>
+              <TableCell align="center">{producto.id}</TableCell>
+              <TableCell align="center">receta{producto.receta_id}</TableCell>
+              <TableCell align="center">{producto.pedido}</TableCell>
               <TableCell align="center">
-                <FormDialog receta={receta} data={data}/>
+                <FormDialog producto={producto} data={data}/>
               </TableCell>
             </TableRow>
           ))}

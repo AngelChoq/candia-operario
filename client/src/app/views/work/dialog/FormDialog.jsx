@@ -9,19 +9,22 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useInsumos } from "../../../../context/InsumoProvider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { set } from "lodash";
 
-export default function FormDialog({ receta, data }) {
+export default function FormDialog({ producto, data }) {
   const { getInsumosReceta } = useInsumos();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(false);
   const [insumos, setInsumos] = useState([]);
   const [selected, setSelected] = useState({});
+  const [pRegistrado, setPRegistrado] = useState(0.0);
   const [pAcumulado, setPAcumulado] = useState(0.0);
+  const [pProducido, setPProducido] = useState({});
 
   useEffect(() => {
     if (open && insumos.length == 0) {
       const loadInsumosReceta = async () => {
-        const temp = await getInsumosReceta(receta.id);
+        const temp = await getInsumosReceta(producto.receta_id);
         if (temp) {
           temp.map((insumo) => {
             insumo.validado = false;
@@ -34,27 +37,40 @@ export default function FormDialog({ receta, data }) {
   }, [open]);
 
   useEffect(() => {
-    console.log("insumos", insumos);
     if (insumos.length > 0 && insumos[0] != undefined) {
       var tempInsumo = insumos.filter((insumo) => insumo.validado == false);
       setSelected(tempInsumo[0]);
     }
   }, [insumos]);
 
+  useEffect(() => {
+    setPAcumulado(pRegistrado + Number(data));
+  }, [data]);
+
   // useEffect(() => {
   //   console.log("selected", selected);
   // }, [selected]);
 
-  const handleRefresh = () => {
+  const handleNext = () => {
     const updatedInsumos = insumos.map((insumo) =>
       insumo.id === selected.id ? { ...insumo, validado: true } : insumo
     );
     setInsumos(updatedInsumos);
-    setPAcumulado(0.0);
+    setPRegistrado(0.0);
+    setChecked(false);
   };
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setChecked(false);
+    setPRegistrado(0.0);
+    setPAcumulado(0.0);
+    setSelected({});
+    setInsumos([]);
+    setPProducido({});
+    setOpen(false);
+  }
+
   const handleOpen = () => setOpen(true);
 
   function handleInputChange(event, field) {
@@ -64,7 +80,6 @@ export default function FormDialog({ receta, data }) {
     // Do something with the new value and field
     // if (field == "insumo") {
     var tempSelected = selected;
-    console.log("tempSelected", tempSelected);
     if (newValue == tempSelected.barras) {
       console.log("correcto");
       setChecked(true);
@@ -76,7 +91,7 @@ export default function FormDialog({ receta, data }) {
   const handleButtonClick = () => {
     const newValue = parseFloat(data);
     if (!isNaN(newValue)) {
-      setPAcumulado((prevPAcumulado) => prevPAcumulado + newValue);
+      setPRegistrado((prevPRegistrado) => prevPRegistrado + newValue);
     }
   };
 
@@ -97,7 +112,9 @@ export default function FormDialog({ receta, data }) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">{receta.nombre}</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          receta{producto.receta_id}
+        </DialogTitle>
 
         <DialogContent>
           <Box
@@ -112,7 +129,7 @@ export default function FormDialog({ receta, data }) {
             {selected.peso ? (
               <TextField
                 id="filled-read-only-input"
-                value={selected.peso}
+                value={selected.peso * producto.pedido}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -121,17 +138,27 @@ export default function FormDialog({ receta, data }) {
             ) : (
               <></>
             )}
-            Peso Acumulado
-            <TextField
-              id="filled-read-only-input"
-              value={pAcumulado}
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="filled"
-            />
+
             {checked ? (
               <>
+                Peso Registrado
+                <TextField
+                  id="filled-read-only-input"
+                  value={pRegistrado}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+                Peso Acumulado
+                <TextField
+                  id="filled-read-only-input"
+                  value={pAcumulado}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
                 <br />
                 <Icon style={{ fontSize: 50 }}>check</Icon>
                 <Grid
@@ -179,27 +206,27 @@ export default function FormDialog({ receta, data }) {
             Cancelar
           </Button>
           {insumos.filter((insumo) => !insumo.validado).length > 1 &&
-            pAcumulado === selected.peso && (
+            pRegistrado === (selected.peso * producto.pedido) && (
               <Button
                 variant="contained"
-                onClick={handleRefresh}
+                onClick={handleNext}
                 color="primary"
               >
                 Siguiente
               </Button>
             )}
           {insumos.filter((insumo) => !insumo.validado).length > 1 &&
-            pAcumulado > selected.peso && (
-              <Button variant="contained" color="error" onClick={handleRefresh}>
+            pRegistrado > (selected.peso * producto.pedido) && (
+              <Button variant="contained" color="error" onClick={handleNext}>
                 Forzar Pesado
               </Button>
             )}
           {insumos.filter((insumo) => !insumo.validado).length === 1 &&
-            pAcumulado >= selected.peso && (
-            <Button variant="outlined" color="success" onClick={handleClose}>
-              Registrar
-            </Button>
-          )}
+            pRegistrado >= (selected.peso * producto.pedido) && (
+              <Button variant="outlined" color="success" onClick={handleClose}>
+                Registrar
+              </Button>
+            )}
         </DialogActions>
       </Dialog>
     </Box>

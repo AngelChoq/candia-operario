@@ -3,6 +3,9 @@ import axios from "axios";
 export const getProductosRequest = async () =>
   await axios.get("http://localhost:4000/productos");
 
+  export const getProductosPedidosRequest = async () =>
+  await axios.get("http://localhost:4000/productos-pedidos");
+
 export const createProductoRequest = async (producto) =>
   await axios.post("http://localhost:4000/productos", producto);
 

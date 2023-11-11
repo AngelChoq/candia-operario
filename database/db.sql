@@ -59,16 +59,16 @@ insert into recetas (nombre, peso) values ('receta3', 7.5);
 INSERT INTO recetas (nombre, peso) VALUES ('receta4', 4.3);
 INSERT INTO recetas (nombre, peso) VALUES ('receta5', 2.2);
 
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo1',300.323,'codigo1',1);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo2',200.223,'codigo2',1);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo3',100.123,'codigo3',2);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo4',400.423,'codigo4',3);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo5', 500.523, 'codigo5', 1);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo6', 600.623, 'codigo6', 2);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo7', 700.723, 'codigo7', 3);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo8', 800.823, 'codigo8', 4);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo9', 900.923, 'codigo9', 5);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo10', 1000.023, 'codigo10', 1);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo1',3.323,'codigo1',1);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo2',2.223,'codigo2',1);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo3',1.123,'codigo3',2);
+insert into insumos (nombre, peso, barras, receta_id) values ('insumo4',4.423,'codigo4',3);
+INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo5', 5.523, 'codigo5', 1);
+INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo6', 6.623, 'codigo6', 2);
+INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo7', 7.723, 'codigo7', 3);
+INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo8', 8.823, 'codigo8', 4);
+INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo9', 9.923, 'codigo9', 5);
+INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo10', 10.023, 'codigo10', 1);
 
 INSERT INTO productos (receta_id, pedido, nucleo) VALUES (1, 100.6, 100.8);
 INSERT INTO productos (receta_id, pedido, nucleo) VALUES (2, 200.6, 200.8);
@@ -103,7 +103,9 @@ INSERT INTO ingredientes (producto_id, insumo_id, peso) VALUES (4, 9, 19.923);
 INSERT INTO ingredientes (producto_id, insumo_id, peso) VALUES (5, 10, 20.023);
 
 
-
+INSERT INTO productos (receta_id, pedido) VALUES (1, 100.6);
+INSERT INTO productos (receta_id, pedido) VALUES (2, 200.6);
+INSERT INTO productos (receta_id, pedido) VALUES (3, 300.6);
 
 
 
