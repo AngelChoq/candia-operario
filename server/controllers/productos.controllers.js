@@ -39,16 +39,16 @@ export const getProducto = async (req, res) => {
 
 export const createProducto = async (req, res) => {
   try {
-    const { receta_id, nucleo, batch } = req.body;
+    const { receta_id, pedido, nucleo } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO productos(receta_id, nucleo, batch) VALUES (?, ?, ?)",
-      [receta_id, nucleo, batch]
+      "INSERT INTO productos(receta_id, pedido, nucleo) VALUES (?, ?, ?)",
+      [receta_id, pedido, nucleo]
     );
     res.json({
       id: result.insertId,
       receta_id,
+      pedido,
       nucleo,
-      batch,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

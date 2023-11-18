@@ -6,7 +6,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Fab,
+  Icon,
 } from "@mui/material";
+import FormDialog from "../dialog/FormDialog";
 import { useEffect } from "react";
 import { useProductos } from "context/ProductoProvider";
 import moment from "moment-timezone";
@@ -22,39 +25,49 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 const SimpleTable = () => {
-  const { productos, loadProductos } = useProductos();
+  const { productos, deleteProducto, loadProductosPedidos } = useProductos();
   useEffect(() => {
-    loadProductos();
+    loadProductosPedidos();
   }, []);
+  // useEffect(() => {
+  //   loadProductosPedidos();
+  // }, [productos]);
+  const delProducto = async (id) => {
+    await deleteProducto(id);
+    loadProductosPedidos();
+  }
+  
   return (
     <Box width="100%" overflow="auto">
+      <FormDialog loadProductosPedidos={loadProductosPedidos}/>
       <StyledTable>
         <TableHead>
           <TableRow>
-            <TableCell align="center">NÚMERO</TableCell>
-            <TableCell align="center">NOMBRE</TableCell>
+            <TableCell align="center">CÓDIGO</TableCell>
+            <TableCell align="center">RECETA</TableCell>
             <TableCell align="center">P. SOLICITADO (kg)</TableCell>
-            <TableCell align="center">P. PRODUCIDO (kg)</TableCell>
-            <TableCell align="center">FECHAS</TableCell>
+            <TableCell align="center">ACCIONES</TableCell>
           </TableRow>
         </TableHead>
-
         <TableBody>
-          {productos
-            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt))
-            .map((producto) => (
-              <TableRow key={producto.id}>
-                <TableCell align="center">{producto.id}</TableCell>
-                <TableCell align="center">receta{producto.id}</TableCell>
-                <TableCell align="center">{producto.pedido}</TableCell>
-                <TableCell align="center">{producto.nucleo}</TableCell>
-                <TableCell align="center">
-                  {moment(producto.createAt)
-                    .tz("America/Lima")
-                    .format("DD/MM/YYYY HH:mm:ss")}
-                </TableCell>
-              </TableRow>
-            ))}
+          {productos.map((producto, index) => (
+            <TableRow key={index}>
+              <TableCell align="center">{producto.id}</TableCell>
+              <TableCell align="center">receta{producto.receta_id}</TableCell>
+              <TableCell align="center">{producto.pedido}</TableCell>
+              <TableCell align="center">
+                <Fab
+                  size="medium"
+                  color="danger"
+                  aria-label="Delete"
+                  className="button"
+                  onClick={() => delProducto(producto.id)}
+                >
+                  <Icon>delete</Icon>
+                </Fab>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </StyledTable>
     </Box>
