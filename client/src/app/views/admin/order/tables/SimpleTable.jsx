@@ -46,6 +46,7 @@ const SimpleTable = () => {
             <TableCell align="center">CÓDIGO</TableCell>
             <TableCell align="center">RECETA</TableCell>
             <TableCell align="center">P. SOLICITADO (kg)</TableCell>
+            <TableCell align="center">FECHA</TableCell>
             <TableCell align="center">ACCIONES</TableCell>
           </TableRow>
         </TableHead>
@@ -55,6 +56,11 @@ const SimpleTable = () => {
               <TableCell align="center">{producto.id}</TableCell>
               <TableCell align="center">receta{producto.receta_id}</TableCell>
               <TableCell align="center">{producto.pedido}</TableCell>
+              <TableCell align="center">
+                  {moment(producto.createAt)
+                    .tz("America/Lima")
+                    .format("DD/MM/YYYY HH:mm:ss")}
+                </TableCell>
               <TableCell align="center">
                 <Fab
                   size="medium"

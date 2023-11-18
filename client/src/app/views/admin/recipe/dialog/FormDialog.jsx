@@ -62,15 +62,9 @@ export default function FormDialog() {
 
   return (
     <Box>
-      <Fab
-        size="medium"
-        color="primary"
-        aria-label="Add"
-        className="button"
-        onClick={handleClickOpen}
-      >
-        <Icon>add</Icon>
-      </Fab>
+      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+        Crear Receta
+      </Button>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Receta 1</DialogTitle>

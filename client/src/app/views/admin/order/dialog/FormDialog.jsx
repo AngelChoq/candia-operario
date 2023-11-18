@@ -47,9 +47,6 @@ export default function FormDialog({ loadProductosPedidos }) {
     setReceta(event.target.value);
   };
   const handleRegistrar = (event) => {
-    
-    console.log(receta);
-    console.log(peso);
     const producto = {receta_id: receta, pedido: peso};
     const crearProducto = async () => {
       await createProducto(producto);

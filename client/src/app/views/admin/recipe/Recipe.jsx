@@ -47,7 +47,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1)
 }));
 
-const Adminitrator = () => {
+const Recipe = () => {
   const { palette } = useTheme();
 
   return (
@@ -70,4 +70,4 @@ const Adminitrator = () => {
   );
 };
 
-export default Adminitrator;
+export default Recipe;
