@@ -56,7 +56,7 @@ const Adminitrator = () => {
         <Breadcrumb
           routeSegments={[
             { name: 'Administrador', path: '/admin/administrator' },
-            { name: 'Lista de Recetas' }
+            { name: 'Lista de Recetas ADministrador' }
           ]}
         />
       </Box>

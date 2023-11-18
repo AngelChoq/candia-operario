@@ -7,6 +7,9 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+//import { UserContext } from 'context/UserContext';
+import { useUser } from '../../../context/UserProvider';
+import { use } from 'echarts';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -34,7 +37,7 @@ const JWTRoot = styled(JustifyBox)(() => ({
 
 // inital login credentials
 const initialValues = {
-  email: 'jason@ui-lib.com',
+  name: 'jason@ui-lib.com',
   password: 'dummyPass',
   remember: true
 };
@@ -44,10 +47,12 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Password must be 6 character length')
     .required('Password is required!'),
-  email: Yup.string().email('Invalid Email address').required('Email is required!')
+  name: Yup.string().required('Name is required!')
 });
 
 const JwtLogin = () => {
+  const { userData, updateUser } = useUser();
+  // const user = useContext(UserContext);
   const theme = useTheme();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -57,9 +62,19 @@ const JwtLogin = () => {
   const handleFormSubmit = async (values) => {
     setLoading(true);
     try {
-      await login(values.email, values.password);
-      navigate('/admin/administrator');
+      //await login(values.name, values.password);
+      if (values.name == 'admin' && values.password == '123456') {
+        updateUser({rol: 'admin'});
+        navigate('/admin/administrator');
+      }else if(values.name == 'operador' && values.password == '654321') {
+        updateUser({rol: 'operator'});
+        navigate('/work/worker');
+      }else{
+        alert('Usuario o contraseña incorrecta');
+        setLoading(false);
+      }
     } catch (e) {
+      console.log(e);
       setLoading(false);
     }
   };
@@ -90,6 +105,7 @@ const JwtLogin = () => {
                       name="name"
                       label="Nombre"
                       variant="outlined"
+                      onChange={handleChange}
                       sx={{ mb: 3 }}
                     />
 

@@ -4,6 +4,8 @@ import { styled } from '@mui/material';
 import { MatxVerticalNav } from 'app/components';
 import useSettings from 'app/hooks/useSettings';
 import { navigations } from 'app/navigations';
+import { navigationsAdmin } from 'app/navigationsAdmin';
+import { useUser } from '../../context/UserProvider';
 
 const StyledScrollBar = styled(Scrollbar)(() => ({
   paddingLeft: '1rem',
@@ -25,6 +27,8 @@ const SideNavMobile = styled('div')(({ theme }) => ({
 
 const Sidenav = ({ children }) => {
   const { settings, updateSettings } = useSettings();
+  const { userData, updateUser } = useUser();
+  console.log(userData);
 
   const updateSidebarMode = (sidebarSettings) => {
     let activeLayoutSettingsName = settings.activeLayout + 'Settings';
@@ -46,7 +50,7 @@ const Sidenav = ({ children }) => {
     <Fragment>
       <StyledScrollBar options={{ suppressScrollX: true }}>
         {children}
-        <MatxVerticalNav items={navigations} />
+        <MatxVerticalNav items={userData.rol.rol === 'admin' ? navigationsAdmin : navigations} />
       </StyledScrollBar>
 
       <SideNavMobile onClick={() => updateSidebarMode({ mode: 'close' })} />

@@ -9,6 +9,7 @@ import { SettingsProvider } from "./contexts/SettingsContext";
 import routes from "./routes";
 import "../fake-db";
 import { ProductoContextProvider } from "context/ProductoProvider";
+import { UserContextProvider } from "context/UserProvider";
 
 const App = () => {
   const content = useRoutes(routes);
@@ -16,18 +17,20 @@ const App = () => {
   return (
     <SettingsProvider>
       {/* <AuthProvider> */}
-      <ProductoContextProvider>
-        <RecetaContextProvider>
-          <InsumoContextProvider>
-            <IngredienteContextProvider>
-              <MatxTheme>
-                <CssBaseline />
-                {content}
-              </MatxTheme>
-            </IngredienteContextProvider>
-          </InsumoContextProvider>
-        </RecetaContextProvider>
-      </ProductoContextProvider>
+      <UserContextProvider>
+        <ProductoContextProvider>
+          <RecetaContextProvider>
+            <InsumoContextProvider>
+              <IngredienteContextProvider>
+                <MatxTheme>
+                  <CssBaseline />
+                  {content}
+                </MatxTheme>
+              </IngredienteContextProvider>
+            </InsumoContextProvider>
+          </RecetaContextProvider>
+        </ProductoContextProvider>
+      </UserContextProvider>
       {/* </AuthProvider> */}
     </SettingsProvider>
   );
