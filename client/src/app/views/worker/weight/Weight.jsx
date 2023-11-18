@@ -99,7 +99,7 @@ const Weight = () => {
         Conectar Balanza
       </Button>
       <SimpleCard title="Seleccione Receta">
-        <SimpleTable data={data} />
+        <SimpleTable data={data} connectionStatus={connectionStatus}/>
       </SimpleCard>
     </Container>
   );

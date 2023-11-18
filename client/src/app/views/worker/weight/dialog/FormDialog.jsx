@@ -13,7 +13,7 @@ import { useIngredientes } from "context/IngredienteProvider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { set } from "lodash";
 
-export default function FormDialog({ producto, data }) {
+export default function FormDialog({ producto, data, connectionStatus }) {
   const { getInsumosReceta } = useInsumos();
   const { updateProducto, loadProductosPedidos } = useProductos();
   const { createIngrediente } = useIngredientes();
@@ -25,6 +25,8 @@ export default function FormDialog({ producto, data }) {
   const [pAcumulado, setPAcumulado] = useState(0.0);
   const [ingredientes, setIngredientes] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isForzar, setIsForzar] = useState(false);
+  const [admin, setAdmin] = useState("");
 
   useEffect(() => {
     if (open && insumos.length == 0) {
@@ -75,6 +77,31 @@ export default function FormDialog({ producto, data }) {
     setInsumos(updatedInsumos);
     setPRegistrado(0.0);
     setChecked(false);
+  };
+
+  const handleForzar = () => {
+    setIsForzar(true);
+    if (admin === "123456") {
+      handleNext();
+      setIsForzar(false);
+      setAdmin("");
+      // const updatedInsumos = insumos.map((insumo) =>
+      //   insumo.id === selected.id ? { ...insumo, validado: true } : insumo
+      // );
+      // var ingredienteTemp = {
+      //   producto_id: producto.id,
+      //   insumo_id: selected.id,
+      //   peso: pRegistrado,
+      // };
+      // setIngredientes((prevIngredientes) => [
+      //   ...prevIngredientes,
+      //   ingredienteTemp,
+      // ]);
+      // setInsumos(updatedInsumos);
+      // setPRegistrado(0.0);
+      // setChecked(false);
+      // setIsForzar(false);
+    }
   };
 
   const handleClickOpen = () => setOpen(true);
@@ -147,6 +174,7 @@ export default function FormDialog({ producto, data }) {
         aria-label="Add"
         className="button"
         onClick={handleClickOpen}
+        disabled={connectionStatus !== "success"}
       >
         <Icon>add</Icon>
       </Fab>
@@ -257,6 +285,18 @@ export default function FormDialog({ producto, data }) {
                 onChange={(event) => handleInputChange(event, "insumo")}
               />
             )}
+            {isForzar ? (
+              <TextField
+                fullWidth
+                id="admin"
+                margin="dense"
+                label="admin"
+                type="password"
+                onChange={(event) => setAdmin(event.target.value)}
+              />
+            ) : (
+              <></>
+            )}
           </Box>
         </DialogContent>
 
@@ -272,7 +312,7 @@ export default function FormDialog({ producto, data }) {
             )}
           {insumos.filter((insumo) => !insumo.validado).length > 1 &&
             pRegistrado > selected.peso * producto.pedido && (
-              <Button variant="contained" color="error" onClick={handleNext}>
+              <Button variant="contained" color="error" onClick={handleForzar}>
                 Forzar Pesado
               </Button>
             )}

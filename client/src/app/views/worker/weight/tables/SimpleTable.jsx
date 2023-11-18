@@ -22,7 +22,7 @@ const StyledTable = styled(Table)(({ theme }) => ({
   }
 }));
 
-const SimpleTable = ({data}) => {
+const SimpleTable = ({data, connectionStatus}) => {
   const { productos, loadProductosPedidos } = useProductos();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const SimpleTable = ({data}) => {
               <TableCell align="center">receta{producto.receta_id}</TableCell>
               <TableCell align="center">{producto.pedido}</TableCell>
               <TableCell align="center">
-                <FormDialog producto={producto} data={data}/>
+                <FormDialog producto={producto} data={data} connectionStatus={connectionStatus}/>
               </TableCell>
             </TableRow>
           ))}
