@@ -1,7 +1,12 @@
 export const navigations = [
   // { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
-  { name: 'Historial', path: '/admin/administrator', icon: 'storage' },
-  { name: 'Trabajador', path: '/work/worker', icon: 'play_for_work' }
+
+  // { name: 'Historial', path: '/admin/administrator', icon: 'storage' },
+  // { name: 'Trabajador', path: '/work/worker', icon: 'play_for_work' }
+
+  { name: 'Historial', path: '/worker/historic', icon: 'storage' },
+  { name: 'Pesaje', path: '/worker/weight', icon: 'play_for_work' }
+
   // { label: 'PAGES', type: 'label' },
   // {
   //   name: 'Session/Auth',

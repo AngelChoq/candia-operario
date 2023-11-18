@@ -21,8 +21,17 @@ const Analytics = Loadable(lazy(() => import('app/views/dashboard/Analytics')));
 // administrator page
 const Administrator = Loadable(lazy(() => import('app/views/admin/Adminitrator')));
 
-// worker page
-const Worker = Loadable(lazy(() => import('app/views/work/Worker')));
+// administrator recipe page
+const Recipe = Loadable(lazy(() => import('app/views/admin/recipe/Recipe')));
+
+// administrator order page
+const Order = Loadable(lazy(() => import('app/views/admin/order/Order')));
+
+// worker historic page
+const Historic = Loadable(lazy(() => import('app/views/worker/historic/Historic')));
+
+// worker weight page
+const Weight = Loadable(lazy(() => import('app/views/worker/weight/Weight')));
 
 const routes = [
   {
@@ -45,10 +54,31 @@ const routes = [
         auth: authRoles.admin
       },
 
-      // worker route
+      // adminitrator recipe route
       {
-        path: '/work/worker',
-        element: <Worker />,
+        path: '/admin/recipe',
+        element: <Recipe />,
+        auth: authRoles.admin
+      },
+
+      // adminitrator order route
+      {
+        path: '/admin/order',
+        element: <Order />,
+        auth: authRoles.admin
+      },
+
+      // worker historic route
+      {
+        path: '/worker/historic',
+        element: <Historic />,
+        auth: authRoles.admin
+      },
+
+      // worker weight route
+      {
+        path: '/worker/weight',
+        element: <Weight />,
         auth: authRoles.admin
       },
 

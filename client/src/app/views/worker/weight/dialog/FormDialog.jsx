@@ -7,9 +7,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useInsumos } from "../../../../context/InsumoProvider";
-import { useProductos } from "../../../../context/ProductoProvider";
-import { useIngredientes } from "../../../../context/IngredienteProvider";
+import { useInsumos } from "context/InsumoProvider";
+import { useProductos } from "context/ProductoProvider";
+import { useIngredientes } from "context/IngredienteProvider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { set } from "lodash";
 

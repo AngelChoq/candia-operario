@@ -65,10 +65,10 @@ const JwtLogin = () => {
       //await login(values.name, values.password);
       if (values.name == 'admin' && values.password == '123456') {
         updateUser({rol: 'admin'});
-        navigate('/admin/administrator');
+        navigate('/admin/order');
       }else if(values.name == 'operador' && values.password == '654321') {
         updateUser({rol: 'operator'});
-        navigate('/work/worker');
+        navigate('/worker/weight');
       }else{
         alert('Usuario o contraseña incorrecta');
         setLoading(false);

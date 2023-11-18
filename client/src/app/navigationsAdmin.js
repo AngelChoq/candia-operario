@@ -1,7 +1,7 @@
 export const navigationsAdmin = [
   // { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
-  { name: 'Recetas', path: '/admin/administrator', icon: 'storage' },
-  { name: 'Pedidos', path: '/admin/administrator', icon: 'storage' },
+  { name: 'Recetas', path: '/admin/recipe', icon: 'collections_bookmark' },
+  { name: 'Pedidos', path: '/admin/order', icon: 'border_color' },
   // { label: 'PAGES', type: 'label' },
   // {
   //   name: 'Session/Auth',

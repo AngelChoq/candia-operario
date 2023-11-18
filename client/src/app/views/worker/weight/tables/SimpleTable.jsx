@@ -1,20 +1,14 @@
 import {
   Box,
-  Fab,
-  Icon,
-  IconButton,
   styled,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Checkbox,
-  TextField
 } from '@mui/material';
-import SimpleCheckbox from '../../material-kit/checkbox/SimpleCheckbox';
 import FormDialog from '../dialog/FormDialog';
-import { useProductos } from "../../../../context/ProductoProvider";
+import { useProductos } from "context/ProductoProvider";
 // import { getInsumosRequest } from '../../../../api/insumos.api';
 import { useEffect } from "react";
 

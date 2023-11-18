@@ -13,7 +13,7 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
-const Worker = () => {
+const Weight = () => {
   //console.log(SerialPort.list());
   const [connectionStatus, setConnectionStatus] = useState("primary");
   const { palette } = useTheme();
@@ -86,7 +86,7 @@ const Worker = () => {
       <Box className="breadcrumb">
         <Breadcrumb
           routeSegments={[
-            { name: "Trabajador", path: "/work/worker" },
+            { name: "Trabajador", path: "/worker/weight" },
             { name: "Lista de Recetas" },
           ]}
         />
@@ -105,4 +105,4 @@ const Worker = () => {
   );
 };
 
-export default Worker;
+export default Weight;
