@@ -22,6 +22,9 @@ const Analytics = Loadable(lazy(() => import('app/views/dashboard/Analytics')));
 const Administrator = Loadable(lazy(() => import('app/views/admin/Adminitrator')));
 
 // administrator recipe page
+const Production = Loadable(lazy(() => import('app/views/admin/production/Production')));
+
+// administrator recipe page
 const Recipe = Loadable(lazy(() => import('app/views/admin/recipe/Recipe')));
 
 // administrator order page
@@ -51,6 +54,13 @@ const routes = [
       {
         path: '/admin/administrator',
         element: <Administrator />,
+        auth: authRoles.admin
+      },
+
+      // adminitrator historic route
+      {
+        path: '/admin/production',
+        element: <Production />,
         auth: authRoles.admin
       },
 

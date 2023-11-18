@@ -1,5 +1,6 @@
 export const navigationsAdmin = [
   // { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
+  { name: 'Producción', path: '/admin/production', icon: 'all_inbox' },
   { name: 'Recetas', path: '/admin/recipe', icon: 'collections_bookmark' },
   { name: 'Pedidos', path: '/admin/order', icon: 'border_color' },
   // { label: 'PAGES', type: 'label' },
