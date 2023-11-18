@@ -18,14 +18,17 @@ const AppEchart = Loadable(lazy(() => import('app/views/charts/echarts/AppEchart
 // dashboard page
 const Analytics = Loadable(lazy(() => import('app/views/dashboard/Analytics')));
 
-// administrator recipe page
+// administrator production page
 const Production = Loadable(lazy(() => import('app/views/admin/production/Production')));
+
+// administrator order page
+const Order = Loadable(lazy(() => import('app/views/admin/order/Order')));
 
 // administrator recipe page
 const Recipe = Loadable(lazy(() => import('app/views/admin/recipe/Recipe')));
 
-// administrator order page
-const Order = Loadable(lazy(() => import('app/views/admin/order/Order')));
+// administrator recipe page
+const Supply = Loadable(lazy(() => import('app/views/admin/supply/Supply')));
 
 // worker historic page
 const Historic = Loadable(lazy(() => import('app/views/worker/historic/Historic')));
@@ -54,6 +57,13 @@ const routes = [
         auth: authRoles.admin
       },
 
+      // adminitrator order route
+      {
+        path: '/admin/order',
+        element: <Order />,
+        auth: authRoles.admin
+      },
+
       // adminitrator recipe route
       {
         path: '/admin/recipe',
@@ -61,10 +71,10 @@ const routes = [
         auth: authRoles.admin
       },
 
-      // adminitrator order route
+      // adminitrator supply route
       {
-        path: '/admin/order',
-        element: <Order />,
+        path: '/admin/supply',
+        element: <Supply />,
         auth: authRoles.admin
       },
 
