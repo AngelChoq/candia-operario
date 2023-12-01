@@ -17,6 +17,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import { useInsumos } from "context/InsumoProvider";
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: 'pre',
@@ -27,38 +28,25 @@ const StyledTable = styled(Table)(({ theme }) => ({
     '& tr': { '& td': { paddingLeft: 0, textTransform: 'capitalize' } }
   }
 }));
-const subscribarList = [
-  {
-    name: 'insumo 1',
-    total: 2,
-    weight: 5,
-    checked: true
-  },
-  {
-    name: 'insumo 2',
-    total: 4,
-    weight: 5,
-    checked: true
-  },
-  {
-    name: 'insumo 3',
-    total: 2,
-    weight: 50,
-    checked: false
-  },
-  {
-    name: 'insumo 4',
-    total: 5,
-    weight: 3,
-    checked: false
-  }
-];
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
+  const [nombre, setNombre] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const { createInsumo, loadInsumos } = useInsumos();
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleCrear = (event) => {
+    const insumo = {nombre: nombre, barras: codigo};
+    const crearInsumo = async () => {
+      await createInsumo(insumo);
+    };
+    crearInsumo().then(() => {loadInsumos()});
+    // loadProductosPedidos();
+    setOpen(false);
+  };
 
   return (
     <Box>
@@ -67,35 +55,38 @@ export default function FormDialog() {
       </Button>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Insumo 1</DialogTitle>
+        <DialogTitle id="form-dialog-title">Crear Insumo</DialogTitle>
 
         <DialogContent>
           <DialogContentText>
-            <StyledTable>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Item</TableCell>
-                  <TableCell align="center">Insumo</TableCell>
-                  <TableCell align="center">Peso</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {subscribarList.map((subscribarList, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{index + 1}</TableCell>
-                    <TableCell align="center">{subscribarList.name}</TableCell>
-                    <TableCell align="center">{subscribarList.weight}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </StyledTable>
+            Escriba el nombre del insumo.
           </DialogContentText>
+          <TextField
+            fullWidth
+            autoFocus
+            id="nombre"
+            margin="dense"
+            label="Nombre"
+            onChange={(event) => setNombre(event.target.value)}
+          />
+          <DialogContentText>
+            Escriba el código de barras del insumo.
+          </DialogContentText>
+          <TextField
+            fullWidth
+            id="codigo"
+            margin="dense"
+            label="codigo"
+            onChange={(event) => setCodigo(event.target.value)}
+          />
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Regresar
+          <Button variant="contained" onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button variant="contained" onClick={handleCrear} color="success">
+            Crear
           </Button>
         </DialogActions>
       </Dialog>

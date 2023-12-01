@@ -124,10 +124,10 @@ export default function FormDialog({ loadProductosPedidos }) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button variant="contained" onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleRegistrar} color="success">
+          <Button variant="contained" onClick={handleRegistrar} color="success">
             Registrar
           </Button>
         </DialogActions>

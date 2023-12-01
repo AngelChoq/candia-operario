@@ -46,17 +46,15 @@ export const createInsumo = async (req, res) => {
   // res.send('creando insumos');
   // res.send(req.body);
   try {
-    const { nombre, peso, barras, receta_id } = req.body;
+    const { nombre, barras } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO insumos(nombre, peso, barras, receta_id) VALUES (?, ?, ?, ?)",
-      [nombre, peso, barras, receta_id]
+      "INSERT INTO insumos(nombre, barras) VALUES (?, ?)",
+      [nombre, barras]
     );
     res.json({
       id: result.insertId,
       nombre:nombre,
-      peso:peso,
       barras:barras,
-      receta_id:receta_id,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
