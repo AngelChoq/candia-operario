@@ -71,6 +71,15 @@ const SimpleTable = () => {
                   >
                     <Icon>delete</Icon>
                   </Fab>
+                  <Fab
+                    size="medium"
+                    color="danger"
+                    aria-label="Delete"
+                    className="button"
+                    onClick={() => delReceta(receta.id)}
+                  >
+                    <Icon>visibility</Icon>
+                  </Fab>
                 </TableCell>
               </TableRow>
             ))}

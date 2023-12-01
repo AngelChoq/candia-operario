@@ -3,7 +3,7 @@ import { pool } from "../db.js";
 export const getRecetas = async (req, res) => {
   try {
     const [result] = await pool.query(
-      "SELECT * FROM recetas ORDER BY created_at ASC"
+      "SELECT * FROM recetas WHERE deleted_at IS NULL ORDER BY created_at ASC"
     );
     res.json(result);
   } catch (error) {
@@ -13,7 +13,7 @@ export const getRecetas = async (req, res) => {
 
 export const getReceta = async (req, res) => {
   try {
-    const [result] = await pool.query("SELECT * FROM recetas WHERE id = ?", [
+    const [result] = await pool.query("SELECT * FROM recetas WHERE id = ? AND deleted_at IS NULL", [
       req.params.id,
     ]);
 
@@ -28,14 +28,15 @@ export const getReceta = async (req, res) => {
 
 export const createReceta = async (req, res) => {
   try {
-    const { nombre } = req.body;
+    const { nombre, peso } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO recetas(nombre) VALUES (?)",
-      [nombre]
+      "INSERT INTO recetas(nombre, peso) VALUES (?, ?)",
+      [nombre, peso]
     );
     res.json({
       id: result.insertId,
       nombre,
+      peso,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
