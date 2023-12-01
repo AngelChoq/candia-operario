@@ -4,7 +4,7 @@ export const getIngredientes = async (req, res) => {
   // res.send('obteniendo ingredientes');
   try {
     const [result] = await pool.query(
-      "SELECT * FROM ingredientes ORDER BY createAt ASC"
+      "SELECT * FROM ingredientes ORDER BY created_at ASC"
     );
     res.json(result);
   } catch (error) {

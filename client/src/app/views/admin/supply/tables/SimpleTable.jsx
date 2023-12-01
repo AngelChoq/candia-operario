@@ -42,7 +42,7 @@ const SimpleTable = () => {
           <TableRow>
             <TableCell align="center">NÚMERO</TableCell>
             <TableCell align="center">NOMBRE</TableCell>
-            <TableCell align="center">PESO (kg)</TableCell>
+            {/* <TableCell align="center">PESO (kg)</TableCell> */}
             <TableCell align="center">C. BARRAS</TableCell>
             <TableCell align="center">FECHA</TableCell>
             <TableCell align="center">ACCIONES</TableCell>
@@ -51,15 +51,15 @@ const SimpleTable = () => {
 
         <TableBody>
           {insumos
-            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt))
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((insumo) => (
               <TableRow key={insumo.id}>
                 <TableCell align="center">{insumo.id}</TableCell>
                 <TableCell align="center">{insumo.nombre}</TableCell>
-                <TableCell align="center">{insumo.peso}</TableCell>
+                {/* <TableCell align="center">{insumo.peso}</TableCell> */}
                 <TableCell align="center">{insumo.barras}</TableCell>
                 <TableCell align="center">
-                  {moment(insumo.createAt)
+                  {moment(insumo.created_at)
                     .tz("America/Lima")
                     .format("DD/MM/YYYY HH:mm:ss")}
                 </TableCell>

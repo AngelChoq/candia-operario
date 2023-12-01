@@ -1,5 +1,7 @@
-ALTER TABLE insumos
+ALTER TABLE recetas_insumos
 DROP FOREIGN KEY FK_RecetaInsumo;
+ALTER TABLE recetas_insumos
+DROP FOREIGN KEY FK_InsumoReceta;
 ALTER TABLE productos
 DROP FOREIGN KEY FK_RecetaProducto;
 ALTER TABLE ingredientes
@@ -9,6 +11,7 @@ DROP FOREIGN KEY FK_InsumoIngrediente;
 
 DROP TABLE IF EXISTS recetas;
 DROP TABLE IF EXISTS productos;
+DROP TABLE IF EXISTS recetas_insumos;
 DROP TABLE IF EXISTS insumos;
 DROP TABLE IF EXISTS ingredientes;
 
@@ -16,17 +19,27 @@ CREATE TABLE recetas (
   id int PRIMARY KEY AUTO_INCREMENT,
   nombre varchar(255) NOT NULL,
   peso DECIMAL(3,1) NOT NULL,
-  createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE insumos (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     nombre varchar(255) NOT NULL,
-    peso DECIMAL(10,3) NOT NULL,
     barras varchar(255) NOT NULL,
-    receta_id int,
-    createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT FK_RecetaInsumo FOREIGN KEY (receta_id) REFERENCES recetas(id) ON DELETE CASCADE
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+CREATE TABLE recetas_insumos (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    receta_id int NOT NULL,
+    insumo_id int NOT NULL,
+    peso DECIMAL(10,3) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    CONSTRAINT FK_RecetaInsumo FOREIGN KEY (receta_id) REFERENCES recetas(id) ON DELETE CASCADE,
+    CONSTRAINT FK_InsumoReceta FOREIGN KEY (insumo_id) REFERENCES insumos(id) ON DELETE CASCADE
 );
 
 CREATE TABLE productos (
@@ -34,7 +47,8 @@ CREATE TABLE productos (
     receta_id int,
     pedido DECIMAL(10,3) NOT NULL,
     nucleo DECIMAL(10,3),
-    createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
     CONSTRAINT FK_RecetaProducto FOREIGN KEY (receta_id) REFERENCES recetas(id) ON DELETE CASCADE
 );
 
@@ -43,7 +57,8 @@ CREATE TABLE ingredientes (
     producto_id int,
     insumo_id int,
     peso DECIMAL(10,3),
-    createAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
     CONSTRAINT FK_ProductoIngrediente FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE,
     CONSTRAINT FK_InsumoIngrediente FOREIGN KEY (insumo_id) REFERENCES insumos(id) ON DELETE CASCADE
 );
@@ -59,16 +74,27 @@ insert into recetas (nombre, peso) values ('receta3', 7.5);
 INSERT INTO recetas (nombre, peso) VALUES ('receta4', 4.3);
 INSERT INTO recetas (nombre, peso) VALUES ('receta5', 2.2);
 
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo1',3.323,'codigo1',1);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo2',2.223,'codigo2',1);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo3',1.123,'codigo3',2);
-insert into insumos (nombre, peso, barras, receta_id) values ('insumo4',4.423,'codigo4',3);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo5', 5.523, 'codigo5', 1);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo6', 6.623, 'codigo6', 2);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo7', 7.723, 'codigo7', 3);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo8', 8.823, 'codigo8', 4);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo9', 9.923, 'codigo9', 5);
-INSERT INTO insumos (nombre, peso, barras, receta_id) VALUES ('insumo10', 10.023, 'codigo10', 1);
+insert into insumos (nombre, barras) values ('insumo1', 'codigo1');
+insert into insumos (nombre, barras) values ('insumo2', 'codigo2');
+insert into insumos (nombre, barras) values ('insumo3', 'codigo3');
+insert into insumos (nombre, barras) values ('insumo4', 'codigo4');
+INSERT INTO insumos (nombre, barras) VALUES ('insumo5', 'codigo5');
+INSERT INTO insumos (nombre, barras) VALUES ('insumo6', 'codigo6');
+INSERT INTO insumos (nombre, barras) VALUES ('insumo7', 'codigo7');
+INSERT INTO insumos (nombre, barras) VALUES ('insumo8', 'codigo8');
+INSERT INTO insumos (nombre, barras) VALUES ('insumo9', 'codigo9');
+INSERT INTO insumos (nombre, barras) VALUES ('insumo10', 'codigo10');
+
+insert into recetas_insumos (receta_id, insumo_id, peso) values (2, 3, 1.123);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (1, 2, 2.223);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (1, 1, 3.323);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (3, 4, 4.423);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (1, 5, 5.523);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (2, 6, 6.623);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (3, 7, 7.723);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (4, 8, 8.823);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (5, 9, 9.923);
+insert into recetas_insumos (receta_id, insumo_id, peso) values (1, 10, 10.023);
 
 INSERT INTO productos (receta_id, pedido, nucleo) VALUES (1, 100.6, 100.8);
 INSERT INTO productos (receta_id, pedido, nucleo) VALUES (2, 200.6, 200.8);

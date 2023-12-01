@@ -57,7 +57,7 @@ const SimpleTable = () => {
               <TableCell align="center">receta{producto.receta_id}</TableCell>
               <TableCell align="center">{producto.pedido}</TableCell>
               <TableCell align="center">
-                  {moment(producto.createAt)
+                  {moment(producto.created_at)
                     .tz("America/Lima")
                     .format("DD/MM/YYYY HH:mm:ss")}
                 </TableCell>

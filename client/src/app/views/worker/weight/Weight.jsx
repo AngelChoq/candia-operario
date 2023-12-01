@@ -23,8 +23,9 @@ const Weight = () => {
     // let ports = [];
 
     try {
+      console.log("Punto prueba1");
       const port = await navigator.serial.requestPort();
-
+      console.log("Punto prueba2");
       // Check if the port is already open
       // if (ports.includes(port)) {
       //   console.log("INTERNO - This port is already open");

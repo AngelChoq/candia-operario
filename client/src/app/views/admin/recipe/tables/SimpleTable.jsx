@@ -50,14 +50,14 @@ const SimpleTable = () => {
 
         <TableBody>
           {recetas
-            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt))
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((receta) => (
               <TableRow key={receta.id}>
                 <TableCell align="center">{receta.id}</TableCell>
                 <TableCell align="center">{receta.nombre}</TableCell>
                 <TableCell align="center">{receta.peso}</TableCell>
                 <TableCell align="center">
-                  {moment(receta.createAt)
+                  {moment(receta.created_at)
                     .tz("America/Lima")
                     .format("DD/MM/YYYY HH:mm:ss")}
                 </TableCell>

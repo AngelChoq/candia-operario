@@ -41,7 +41,7 @@ const SimpleTable = () => {
 
         <TableBody>
           {productos
-            .sort((a, b) => new Date(b.createAt) - new Date(a.createAt))
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((producto) => (
               <TableRow key={producto.id}>
                 <TableCell align="center">{producto.id}</TableCell>
@@ -49,7 +49,7 @@ const SimpleTable = () => {
                 <TableCell align="center">{producto.pedido}</TableCell>
                 <TableCell align="center">{producto.nucleo}</TableCell>
                 <TableCell align="center">
-                  {moment(producto.createAt)
+                  {moment(producto.created_at)
                     .tz("America/Lima")
                     .format("DD/MM/YYYY HH:mm:ss")}
                 </TableCell>
