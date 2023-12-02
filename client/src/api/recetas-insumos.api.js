@@ -5,7 +5,7 @@ export const getRecetasInsumosRequest = async () =>
   await axios.get(`http://${SERVER_IP}:4000/recetas_insumos`);
 
 export const createRecetaInsumoRequest = async (receta) =>
-  await axios.post(`http://${SERVER_IP}:4000/recetas_insumos`, receta);
+  await axios.post(`http://${SERVER_IP}:4000/recetas-insumos`, receta);
 
 export const deleteRecetaInsumoRequest = async (id) =>
   await axios.delete(`http://${SERVER_IP}:4000/recetas_insumos/${id}`);

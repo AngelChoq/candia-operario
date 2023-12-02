@@ -23,6 +23,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useInsumos } from "context/InsumoProvider";
+import { useRecetasInsumos } from "context/RecetaInsumoProvider";
+import { useRecetas } from "context/RecetaProvider";
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -36,11 +38,13 @@ const StyledTable = styled(Table)(({ theme }) => ({
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
-  const [receta, setReceta] = useState("");
+  const [receta, setReceta] = useState({ nombre: "", peso: 0.0 });
   const { insumos, loadInsumos } = useInsumos();
+  const { createRecetaInsumo } = useRecetasInsumos();
+  const { loadRecetas, createReceta } = useRecetas();
   const [peso, setPeso] = useState(0.0);
   const [insumosSelect, setInsumosSelect] = useState([]);
-  const [insumoSelect, setInsumoSelect] = useState('');
+  const [insumoSelect, setInsumoSelect] = useState("");
   const [insumosTable, setInsumosTable] = useState([]);
   const [insumoTable, setInsumoTable] = useState({});
 
@@ -49,18 +53,18 @@ export default function FormDialog() {
 
   const handleChange = (event) => {
     // setInsumoSelect(event.target.value);
-    const selectedInsumo = insumos.find(insumo => insumo.id === event.target.value);
+    const selectedInsumo = insumos.find(
+      (insumo) => insumo.id === event.target.value
+    );
     setInsumoSelect(selectedInsumo.id);
   };
   const handleAddInsumo = (event) => {
-    console.log(insumoSelect);
-    console.log(insumos);
-    let temp = insumos.find(insumo => insumo.id === insumoSelect);
-    
+    let temp = insumos.find((insumo) => insumo.id === insumoSelect);
+
     // let temp = { ...insumos[insumoSelect] };
     console.log(temp);
     temp.peso = peso;
-    
+
     setInsumosTable([...insumosTable, temp]);
   };
 
@@ -69,7 +73,17 @@ export default function FormDialog() {
   };
 
   const handleCrear = (event) => {
-    // setInsumoSelect(event.target.value);
+    createReceta(receta).then(newReceta => {
+      insumosTable.forEach((insumo) => {
+        createRecetaInsumo({
+          receta_id: newReceta.id,
+          insumo_id: insumo.id,
+          peso: insumo.peso,
+        });
+      });
+      loadRecetas();
+    });
+    handleClose();
   };
 
   useEffect(() => {
@@ -98,7 +112,9 @@ export default function FormDialog() {
             id="receta"
             margin="dense"
             label="receta"
-            onChange={(event) => setReceta(event.target.value)}
+            onChange={(event) =>
+              setReceta({ ...receta, nombre: event.target.value })
+            }
           />
           <DialogContentText>
             Escriba el porcentaje del núcleo de la receta
@@ -110,7 +126,9 @@ export default function FormDialog() {
               margin="dense"
               label="peso"
               type="number"
-              onChange={(event) => setPeso(event.target.value)}
+              onChange={(event) =>
+                setReceta({ ...receta, peso: event.target.value })
+              }
             />
           </Box>
           <Card variant="outlined">
@@ -169,24 +187,34 @@ export default function FormDialog() {
                 </TableHead>
 
                 <TableBody>
-                  {insumosTable.map((insumoTable, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">{index + 1}</TableCell>
-                      <TableCell align="center">{insumoTable.nombre}</TableCell>
-                      <TableCell align="center">{insumoTable.peso}</TableCell>
-                      <TableCell align="center">
-                        <Fab
-                          size="medium"
-                          color="danger"
-                          aria-label="Delete"
-                          className="button"
-                          onClick={() => handleDeleteInsumo(insumoTable)}
-                        >
-                          <Icon>delete</Icon>
-                        </Fab>
+                  {insumosTable.length > 0 ? (
+                    insumosTable.map((insumoTable, index) => (
+                      <TableRow key={index}>
+                        <TableCell align="center">{index + 1}</TableCell>
+                        <TableCell align="center">
+                          {insumoTable.nombre}
+                        </TableCell>
+                        <TableCell align="center">{insumoTable.peso}</TableCell>
+                        <TableCell align="center">
+                          <Fab
+                            size="medium"
+                            color="danger"
+                            aria-label="Delete"
+                            className="button"
+                            onClick={() => handleDeleteInsumo(insumoTable)}
+                          >
+                            <Icon>delete</Icon>
+                          </Fab>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell align="center" colSpan={4}>
+                        No hay insumos registrados
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </StyledTable>
             </CardContent>

@@ -36,7 +36,10 @@ export const RecetaContextProvider = ({ children }) => {
 
   const createReceta = async (receta) => {
     try {
-      await createRecetaRequest(receta);
+      // await createRecetaRequest(receta);
+      const response = await createRecetaRequest(receta);
+      const newReceta = response.data;
+      return newReceta;
       // setRecetas([...recetas, response.data]);
     } catch (error) {
       console.error(error);
@@ -67,7 +70,7 @@ export const RecetaContextProvider = ({ children }) => {
       await toggleRecetaDoneRequest(id, recetaFound.done === 0 ? true : false);
       setRecetas(
         recetas.map((receta) =>
-        receta.id === id ? { ...receta, done: !receta.done } : receta
+          receta.id === id ? { ...receta, done: !receta.done } : receta
         )
       );
     } catch (error) {

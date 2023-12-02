@@ -79,13 +79,23 @@ export default function FormDialogList({ recetaid }) {
                 </TableHead>
 
                 <TableBody>
-                  {insumosTable.map((insumoTable, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">{index + 1}</TableCell>
-                      <TableCell align="center">{insumoTable.nombre}</TableCell>
-                      <TableCell align="center">{insumoTable.peso}</TableCell>
+                  {insumosTable && insumosTable.length > 0 ? (
+                    insumosTable.map((insumoTable, index) => (
+                      <TableRow key={index}>
+                        <TableCell align="center">{index + 1}</TableCell>
+                        <TableCell align="center">
+                          {insumoTable.nombre}
+                        </TableCell>
+                        <TableCell align="center">{insumoTable.peso}</TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell align="center" colSpan={4}>
+                        No hay insumos
+                      </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </StyledTable>
             </CardContent>

@@ -33,7 +33,7 @@ export const createReceta = async (req, res) => {
       "INSERT INTO recetas(nombre, peso) VALUES (?, ?)",
       [nombre, peso]
     );
-    res.json({
+    return res.json({
       id: result.insertId,
       nombre,
       peso,
