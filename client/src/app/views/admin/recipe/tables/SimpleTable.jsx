@@ -8,11 +8,13 @@ import {
   TableRow,
   Fab,
   Icon,
+  Grid,
 } from "@mui/material";
 import FormDialog from "../dialog/FormDialog";
 import { useEffect } from "react";
 import { useRecetas } from "context/RecetaProvider";
 import moment from "moment-timezone";
+import FormDialogList from "../dialog/FormDialogList";
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -32,11 +34,11 @@ const SimpleTable = () => {
   const delReceta = async (id) => {
     await deleteReceta(id);
     loadRecetas();
-  }
+  };
 
   return (
     <Box width="100%" overflow="auto">
-      <FormDialog loadRecetas={loadRecetas}/>
+      <FormDialog loadRecetas={loadRecetas} />
       <StyledTable>
         <TableHead>
           <TableRow>
@@ -62,24 +64,22 @@ const SimpleTable = () => {
                     .format("DD/MM/YYYY HH:mm:ss")}
                 </TableCell>
                 <TableCell align="center">
-                  <Fab
-                    size="medium"
-                    color="danger"
-                    aria-label="Delete"
-                    className="button"
-                    onClick={() => delReceta(receta.id)}
-                  >
-                    <Icon>delete</Icon>
-                  </Fab>
-                  <Fab
-                    size="medium"
-                    color="danger"
-                    aria-label="Delete"
-                    className="button"
-                    onClick={() => delReceta(receta.id)}
-                  >
-                    <Icon>visibility</Icon>
-                  </Fab>
+                  <Grid container direction="row" alignItems="center">
+                    <Grid item>
+                      <Fab
+                        size="medium"
+                        color="danger"
+                        aria-label="Delete"
+                        className="button"
+                        onClick={() => delReceta(receta.id)}
+                      >
+                        <Icon>delete</Icon>
+                      </Fab>
+                    </Grid>
+                    <Grid item>
+                      <FormDialogList recetaid={receta.id}/>
+                    </Grid>
+                  </Grid>
                 </TableCell>
               </TableRow>
             ))}

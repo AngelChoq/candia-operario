@@ -10,6 +10,7 @@ import routes from "./routes";
 import "../fake-db";
 import { ProductoContextProvider } from "context/ProductoProvider";
 import { UserContextProvider } from "context/UserProvider";
+import { RecetaInsumoContextProvider } from "context/RecetaInsumoProvider";
 
 const App = () => {
   const content = useRoutes(routes);
@@ -22,10 +23,12 @@ const App = () => {
           <RecetaContextProvider>
             <InsumoContextProvider>
               <IngredienteContextProvider>
-                <MatxTheme>
-                  <CssBaseline />
-                  {content}
-                </MatxTheme>
+                <RecetaInsumoContextProvider>
+                  <MatxTheme>
+                    <CssBaseline />
+                    {content}
+                  </MatxTheme>
+                </RecetaInsumoContextProvider>
               </IngredienteContextProvider>
             </InsumoContextProvider>
           </RecetaContextProvider>

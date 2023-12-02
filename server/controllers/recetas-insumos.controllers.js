@@ -26,6 +26,21 @@ export const getRecetaInsumo = async (req, res) => {
   }
 };
 
+export const getRecetaInsumoList = async (req, res) => {
+  try {
+    const [result] = await pool.query("SELECT nombre, peso FROM recetas_insumos LEFT JOIN insumos ON insumo_id = insumos.id WHERE receta_id = ? AND recetas_insumos.deleted_at IS NULL", [
+      req.params.id,
+    ]);
+
+    if (result.length === 0)
+      return res.status(404).json({ message: "RecetaInsumo not found" });
+
+    res.json(result);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const createRecetaInsumo = async (req, res) => {
   try {
     const { receta_id, insumo_id, peso } = req.body;

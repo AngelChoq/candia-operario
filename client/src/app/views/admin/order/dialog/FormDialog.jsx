@@ -37,11 +37,11 @@ export default function FormDialog({ loadProductosPedidos }) {
   const [open, setOpen] = useState(false);
   const { recetas, loadRecetas } = useRecetas();
   const { createProducto } = useProductos();
+  const [receta, setReceta] = useState("");
+  const [peso, setPeso] = useState(0.0);
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [receta, setReceta] = useState("");
-  const [peso, setPeso] = useState(0.0);
 
   const handleChange = (event) => {
     setReceta(event.target.value);
