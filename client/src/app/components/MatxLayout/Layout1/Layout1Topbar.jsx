@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -85,6 +85,7 @@ const Layout1Topbar = () => {
   const theme = useTheme();
   const { settings, updateSettings } = useSettings();
   const { logout, user } = useAuth();
+  const [dataUser, setDataUser] = useState({});
   const isMdScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const updateSidebarMode = (sidebarSettings) => {
@@ -103,6 +104,12 @@ const Layout1Topbar = () => {
     }
     updateSidebarMode({ mode });
   };
+
+  useEffect(() => {
+    let data = localStorage.getItem("user");
+    data = JSON.parse(data);
+    setDataUser(data);
+  }, []);
 
   return (
     <TopbarRoot>
@@ -142,7 +149,11 @@ const Layout1Topbar = () => {
                 <Hidden xsDown>
                   <Span>
                     {/* <strong>{user.name}</strong> */}
-                    <strong>Operario</strong>
+                    {dataUser.rol === "admin" ? (
+                      <strong>Administrador</strong>
+                    ) : (
+                      <strong>Operario</strong>
+                    )}
                   </Span>
                 </Hidden>
                 {/* <Avatar src={user.avatar} sx={{ cursor: 'pointer' }} /> */}
@@ -161,10 +172,10 @@ const Layout1Topbar = () => {
               <Span> Logout </Span>
             </StyledItem> */}
 
-            <StyledItem>
+            <StyledItem onClick={() => localStorage.removeItem("user")}>
               <Link to="/">
                 <Icon> power_settings_new </Icon>
-                <Span> Logout </Span>
+                <Span> Cerrar Sesión </Span>
               </Link>
             </StyledItem>
           </MatxMenu>

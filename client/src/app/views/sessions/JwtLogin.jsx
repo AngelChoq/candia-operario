@@ -64,9 +64,11 @@ const JwtLogin = () => {
     try {
       //await login(values.name, values.password);
       if (values.name == 'admin' && values.password == '123456') {
+        localStorage.setItem('user', JSON.stringify({rol: 'admin'}));
         updateUser({rol: 'admin'});
         navigate('/admin/order');
       }else if(values.name == 'operador' && values.password == '654321') {
+        localStorage.setItem('user', JSON.stringify({rol: 'operator'}));
         updateUser({rol: 'operator'});
         navigate('/worker/weight');
       }else{

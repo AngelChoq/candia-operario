@@ -14,7 +14,7 @@ export const getInsumos = async (req, res) => {
 
 export const getInsumosReceta = async (req, res) => {
   try {
-    const [result] = await pool.query("SELECT * FROM insumos WHERE receta_id = ?", [
+    const [result] = await pool.query("SELECT * FROM recetas_insumos LEFT JOIN insumos on insumo_id = insumos.id WHERE receta_id = ?", [
       req.params.receta_id,
     ]);
 
