@@ -74,7 +74,7 @@ export default function FormDialogList({ recetaid }) {
                   <TableRow>
                     <TableCell align="center">Item</TableCell>
                     <TableCell align="center">Insumo</TableCell>
-                    <TableCell align="center">Peso</TableCell>
+                    <TableCell align="center">Peso Núcleo (kg)</TableCell>
                   </TableRow>
                 </TableHead>
 

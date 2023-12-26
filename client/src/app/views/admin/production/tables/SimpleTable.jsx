@@ -33,8 +33,8 @@ const SimpleTable = () => {
           <TableRow>
             <TableCell align="center">NÚMERO</TableCell>
             <TableCell align="center">NOMBRE</TableCell>
-            <TableCell align="center">P. SOLICITADO (kg)</TableCell>
-            <TableCell align="center">P. PRODUCIDO (kg)</TableCell>
+            <TableCell align="center">BATCH SOLICITADO</TableCell>
+            <TableCell align="center">NÚCLEO PRODUCIDO (kg)</TableCell>
             <TableCell align="center">FECHAS</TableCell>
           </TableRow>
         </TableHead>

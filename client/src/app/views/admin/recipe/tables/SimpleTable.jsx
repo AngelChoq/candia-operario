@@ -44,7 +44,7 @@ const SimpleTable = () => {
           <TableRow>
             <TableCell align="center">NÚMERO</TableCell>
             <TableCell align="center">NOMBRE</TableCell>
-            <TableCell align="center">NÚCLEO (%)</TableCell>
+            {/* <TableCell align="center">NÚCLEO (%)</TableCell> */}
             <TableCell align="center">FECHA</TableCell>
             <TableCell align="center">ACCIONES</TableCell>
           </TableRow>
@@ -57,7 +57,7 @@ const SimpleTable = () => {
               <TableRow key={receta.id}>
                 <TableCell align="center">{receta.id}</TableCell>
                 <TableCell align="center">{receta.nombre}</TableCell>
-                <TableCell align="center">{receta.peso}</TableCell>
+                {/* <TableCell align="center">{receta.peso}</TableCell> */}
                 <TableCell align="center">
                   {moment(receta.created_at)
                     .tz("America/Lima")

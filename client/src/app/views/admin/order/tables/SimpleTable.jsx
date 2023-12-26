@@ -45,7 +45,7 @@ const SimpleTable = () => {
           <TableRow>
             <TableCell align="center">CÓDIGO</TableCell>
             <TableCell align="center">RECETA</TableCell>
-            <TableCell align="center">P. MEZCLA FINAL (kg)</TableCell>
+            <TableCell align="center">BATCH SOLICITADO</TableCell>
             <TableCell align="center">FECHA</TableCell>
             <TableCell align="center">ACCIONES</TableCell>
           </TableRow>

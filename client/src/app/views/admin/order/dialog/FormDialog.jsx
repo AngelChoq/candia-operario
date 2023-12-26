@@ -118,7 +118,7 @@ export default function FormDialog({ loadProductosPedidos }) {
             autoFocus
             id="peso"
             margin="dense"
-            label="Peso"
+            label="Batch"
             onChange={(event) => setPeso(event.target.value)}
           />
         </DialogContent>

@@ -38,7 +38,7 @@ const StyledTable = styled(Table)(({ theme }) => ({
 
 export default function FormDialog() {
   const [open, setOpen] = useState(false);
-  const [receta, setReceta] = useState({ nombre: "", peso: 0.0 });
+  const [receta, setReceta] = useState({ nombre: "", peso: null });
   const { insumos, loadInsumos } = useInsumos();
   const { createRecetaInsumo } = useRecetasInsumos();
   const { loadRecetas, createReceta } = useRecetas();
@@ -116,7 +116,7 @@ export default function FormDialog() {
               setReceta({ ...receta, nombre: event.target.value })
             }
           />
-          <DialogContentText>
+          {/* <DialogContentText>
             Escriba el porcentaje del núcleo de la receta
           </DialogContentText>
           <Box mb={2}>
@@ -130,7 +130,7 @@ export default function FormDialog() {
                 setReceta({ ...receta, peso: event.target.value })
               }
             />
-          </Box>
+          </Box> */}
           <Card variant="outlined">
             <CardContent>
               <DialogContentText>

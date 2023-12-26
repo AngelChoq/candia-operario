@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS ingredientes;
 CREATE TABLE recetas (
   id int PRIMARY KEY AUTO_INCREMENT,
   nombre varchar(255) NOT NULL,
-  peso DECIMAL(3,1) NOT NULL,
+  peso DECIMAL(3,1),
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP DEFAULT NULL
 );
